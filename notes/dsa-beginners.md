@@ -17,3 +17,13 @@ Static arrays have to have a pre-defined size
   * Thus at most we will take 2n operations
 * Amortized time complexity is O(1) because it's pretty infrequent that we need to add more space
 * Inserting or removing in the middle is still O(n)
+
+
+## Stacks
+Last in first out.
+
+* Push (O(1))
+* Pop (O(1))
+* Peek/Top (O(1))
+
+Since the out order is reverse of the in order, it can be used to **reverse sequences**, such a s a string.
