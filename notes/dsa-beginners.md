@@ -27,3 +27,13 @@ Last in first out.
 * Peek/Top (O(1))
 
 Since the out order is reverse of the in order, it can be used to **reverse sequences**, such a s a string.
+
+## Linked Lists
+* A `ListNode` will need to have `value` and `next` (a pointer)
+* We point `next` to another `ListNode`
+* Unlike arrays where they values are stored in the same order in memory, a linked list doesn't need to be saved in the same order in memory
+* Normally we will keep a pointer to always point at the Head and the Tail of a linked list
+* Adding to beginning or end is O(1)
+* If you have a reference to a node in the middle it will be O(1)
+* But if we need to "search" for an element it will be O(n)
+* To access a random element without a specific pointer to it, it will also be O(n)
