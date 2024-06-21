@@ -28,7 +28,7 @@ Last in first out.
 
 Since the out order is reverse of the in order, it can be used to **reverse sequences**, such a s a string.
 
-## Linked Lists
+## Singly Linked Lists
 * A `ListNode` will need to have `value` and `next` (a pointer)
 * We point `next` to another `ListNode`
 * Unlike arrays where they values are stored in the same order in memory, a linked list doesn't need to be saved in the same order in memory
@@ -37,3 +37,50 @@ Since the out order is reverse of the in order, it can be used to **reverse sequ
 * If you have a reference to a node in the middle it will be O(1)
 * But if we need to "search" for an element it will be O(n)
 * To access a random element without a specific pointer to it, it will also be O(n)
+* To remove a node at the end, it will be O(n) because we need to traverse from `head` to know who precedes `tail`
+* (for array it is always O(n) because we have to copy over the remainder)
+
+### Linked List Traversal
+```
+cur = ListNode1
+while cur:
+    cur = cur.next
+```
+This take O(n)
+
+We usually will keep a `head` and a `tail` pointer.
+
+
+## Doubly Linked Lists
+We have double pointers. `next` and `prev`
+
+### Appending a new node
+To append a new node
+```
+tail.next = NewNode
+NewNode.prev = tail
+tail = tail.next
+```
+
+### Deleting from the tail
+Compared to a singly linked list, removing the last node can be done at O(1), because we don't have to traverse from `head` to the end to know who precedes `tail`
+
+```
+node2 = tail.prev
+node2.next = null
+tail = node2
+```
+
+* So deleting a node at the end is O(1), which means that both append and remove from the end is O(1), so we satisfy a `stack` requirement
+* But unlike a stack, we can't access a random element at O(1), instead we still need to traverse at O(n); so we don't implement `stack`'s using doubly linked lists
+
+### Array vs Linked List
+||Arrays|LinkedLists
+|---|---|---|
+|Access i-th element|O(1)|O(n)|
+|Insert Remove end|O(1)|O(1)|
+|Insert/Remove middle|O(n)|O(1)*|
+
+*for us to remove in the middle, we have to arrive at that point, which still would take O(n) anyway
+
+So overall, **arrays are still better for most cases because the advantage in insert/remove is handicapped by the O(n) of i-th element access anyway**
