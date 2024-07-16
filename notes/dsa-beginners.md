@@ -1,4 +1,4 @@
-# Arrays
+## Arrays
 * A contiguous set of values
 * `1 byte = 8 bits`
 * Integer takes 32 bits of space, 4 bytes
@@ -20,7 +20,7 @@ Static arrays have to have a pre-defined size
 
 
 ## Stacks
-Last in first out.
+Last in first out (LIFO).
 
 * Push (O(1))
 * Pop (O(1))
@@ -84,3 +84,12 @@ tail = node2
 *for us to remove in the middle, we have to arrive at that point, which still would take O(n) anyway
 
 So overall, **arrays are still better for most cases because the advantage in insert/remove is handicapped by the O(n) of i-th element access anyway**
+
+
+## Queues
+* Differ from a stack in that it's FIFO
+The main requirement is enqueue and dequeue both need to be O(1)
+
+This can be achieved with linked lists.
+
+Could be done with arrays too, but you would need to shift data as we enqueue and dequeue so that would take O(n)
