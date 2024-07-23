@@ -1,4 +1,5 @@
-## Arrays
+# Arrays
+## Static Arrays
 * A contiguous set of values
 * `1 byte = 8 bits`
 * Integer takes 32 bits of space, 4 bytes
@@ -28,6 +29,7 @@ Last in first out (LIFO).
 
 Since the out order is reverse of the in order, it can be used to **reverse sequences**, such a s a string.
 
+# Linked Lists
 ## Singly Linked Lists
 * A `ListNode` will need to have `value` and `next` (a pointer)
 * We point `next` to another `ListNode`
@@ -93,3 +95,54 @@ The main requirement is enqueue and dequeue both need to be O(1)
 This can be achieved with linked lists.
 
 Could be done with arrays too, but you would need to shift data as we enqueue and dequeue so that would take O(n)
+
+# Recursion
+Recursion calls itself until a base case is reached.
+## Factorial (single branch)
+* Recursive solution - think of factorial's definition, and the base case definition.
+```
+def factorial(n):
+    if n == 1:
+        return 1
+    return n * factorial(n - 1)
+```
+* Complexity
+  * O(n) in time
+  * O(n) in space (each function call needs its memory to put the function on hold)
+
+* Iterative solution
+```
+def factorial(n):
+    res = 1
+    for i in range(1, n+1, 1):
+        res *= i
+    return res
+```
+* Complexity
+    * O(n) in time
+    * O(1) in space
+ 
+## Fibonacci Sequence (two branches)
+```
+def fibonacci(n):
+    if n <= 1:
+        return 1
+    return fibonacci(n - 1) + fibonacci(n - 2)
+```
+Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operations. And the depth is at most from n all the way down to 1/0, in decrement of 1. Therefore the depth is at most n, thus the time complexity is O($2^n$)
+```
+        [ 5 ]
+         /    \
+      [4]     [3]
+      /\        /\
+  [3] [2]     [2] [1]
+  /\    /\     /\ 
+[2][1] [1][0] [1][0]
+/\
+[1][0]
+```
+* Complexity
+  * O($2^n$) in time
+    * Because at each layer there are twice more calls
+  * O(n) in space
+    * Because it's determined by the deepest point of the recursion, and the maximum stack depth is just n
