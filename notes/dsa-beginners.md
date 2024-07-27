@@ -146,3 +146,17 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
     * Because at each layer there are twice more calls
   * O(n) in space
     * Because it's determined by the deepest point of the recursion, and the maximum stack depth is just n
+  
+
+# Sorting
+## Insertion Sort
+* Time complexity: $O(n^2)$ in the worst case and $O(n)$ in the best case
+  * Because the number of operations goes like 1 -> 2 -> 3 -> 4, to summing them all, it's equal to a half a square, so we are bounded by $\frac{n^2}{2}$, so we get $O(n^2)$
+* Space complexity O(1) because no additional structure is used
+* Stability: It is stable because if there is a tie, the original relative position will be preserved (because nothing gets moved when it's a tie)
+* How it works:
+  * We will think of this as a sub-problem, sort a smaller sub-list, starting from a sub-list of length 1
+  * At each position, we look at whether the previous position is smaller/bigger, and swap places if so
+  * We will always check until we either
+    * Hit the first position 
+    * Comparison has failed (i.e. the previous number indeed is smaller)
