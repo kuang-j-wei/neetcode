@@ -149,14 +149,28 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
   
 
 # Sorting
+|Algorithms|Time Complexity|Space Complexity
+|---|---|---|
+|InsertionSort (stable) |$O(n^2)$|$O(1)$|
+|MergeSort (stable) |$O(n\log{n})$|$O(n)$|
+
 ## Insertion Sort
-* Time complexity: $O(n^2)$ in the worst case and $O(n)$ in the best case
-  * Because the number of operations goes like 1 -> 2 -> 3 -> 4, to summing them all, it's equal to a half a square, so we are bounded by $\frac{n^2}{2}$, so we get $O(n^2)$
-* Space complexity O(1) because no additional structure is used
-* Stability: It is stable because if there is a tie, the original relative position will be preserved (because nothing gets moved when it's a tie)
 * How it works:
   * We will think of this as a sub-problem, sort a smaller sub-list, starting from a sub-list of length 1
   * At each position, we look at whether the previous position is smaller/bigger, and swap places if so
   * We will always check until we either
     * Hit the first position 
     * Comparison has failed (i.e. the previous number indeed is smaller)
+* Time complexity: $O(n^2)$ in the worst case and $O(n)$ in the best case
+  * Because the number of operations goes like 1 -> 2 -> 3 -> 4, to summing them all, it's equal to a half a square, so we are bounded by $\frac{n^2}{2}$, so we get $O(n^2)$
+* Space complexity O(1) because no additional structure is used
+* Stability: It is stable because if there is a tie, the original relative position will be preserved (because nothing gets moved when it's a tie)
+
+## Merge Sort
+* How it works:
+  * Break by sub-problems by half, until we reach just two individual sub-problems each with a length 1
+  * We then merge back up and individually compare the size by using two pointers iterating through each sub list
+  * Since we are halving each time, the total "depth" will be $\log{n}$
+  * At each layer, we will need to compare n numbers because each element will be iterated over once
+  * So the time complexity is $O(n * \log{n})$
+  * Space complexity is O(log(n) + n) = O(n) because log(n) memory stack, then we need to copy the sub-arrays, which in total will take up n in space
