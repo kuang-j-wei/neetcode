@@ -1,4 +1,4 @@
-def merge(array, start, mid, end):
+def mergeDebug(array, start, mid, end):
     i, j, k = start, 0, 0
     
     left_array = array[start:(mid + 1)]
@@ -25,24 +25,33 @@ def merge(array, start, mid, end):
     return array
 
 
-def mergeSort(array, start, end):
+def mergeSortDebug(array, start, end):
     if end - start + 1 <= 1:
         return array
     
     mid = (start + end) // 2
     print(f"Calling mergeSort({array}, {start}, {mid})")
-    mergeSort(array, start, mid)
+    mergeSortDebug(array, start, mid)
     print(f"Calling mergeSort({array}, {mid + 1}, {end})")
-    mergeSort(array, mid + 1, end)
+    mergeSortDebug(array, mid + 1, end)
     print(f"Calling merge({array}, {start}, {mid}, {end})")
-    merge(array, start, mid, end)
+    mergeDebug(array, start, mid, end)
+    return array
+
+def mergeSort(array):
     return array
 
 
 if __name__ == '__main__':
+    DEBUG = True
     array = [3, 2, 4, 1, 6]
-    sorted_array = mergeSort(array, 0, len(array) - 1)
-    array.sort()
-    assert array == sorted_array, "Failed"
-    # print(f"original array = {array}")
-    # print(f"sorted array = {mergeSort(array, 0, len(array))}")
+    array_copied = array.copy()
+    if DEBUG:
+        sorted_array = mergeSortDebug(array, 0, len(array) - 1)
+        array.sort()
+        assert array == sorted_array, "Failed"
+        print(f"\nOriginal array = {array_copied}")
+        print(f"Sorted array = {sorted_array}")
+    else:
+        sorted_array = mergeSort(array)
+        assert array == sorted_array, "Failed"
