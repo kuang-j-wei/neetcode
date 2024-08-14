@@ -156,8 +156,10 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
 
 ## Insertion Sort
 * How it works:
-  * We will think of this as a sub-problem, sort a smaller sub-list, starting from a sub-list of length 1
-  * At each position, we look at whether the previous position is smaller/bigger, and swap places if so
+  * Like a window function
+  * First start from just itself - by definition it's already sorted
+  * Then a window of two, is the last smaller than its previous one? Swap, and step to previous index
+  * Continue...
   * We will always check until we either
     * Hit the first position 
     * Comparison has failed (i.e. the previous number indeed is smaller)
