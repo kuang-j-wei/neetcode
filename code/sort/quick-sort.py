@@ -1,3 +1,5 @@
+from typing import List
+
 # Definition for a pair.
 class Pair:
     def __init__(self, key: int, value: str):
