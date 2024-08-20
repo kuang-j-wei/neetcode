@@ -154,6 +154,7 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
 |InsertionSort (stable) |$O(n^2)$|$O(1)$|
 |MergeSort (stable) |$O(n\log{n})$|$O(n)$|
 |QuickSort (unstable) |$O(n\log{n})$ to $O(n^2)$|$O(1)$|
+|BucketSort (unstable) |$O(n})$|$O(1)$|
 
 ## Insertion Sort
 * **How it works**:
@@ -201,3 +202,19 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
   * $O(1)$ because all modifications are done in place
 * **Stability**:
   * When there is a tie, the ordering isn't guaranteed
+
+
+## Bucket Sort
+* **How it works**:
+  * Iterate over the array once, and count how many times each unique value appear
+  * Then simply replace the original arrays based on how many times each unique value has appeared (do it in order, of course)
+* **Time Complexity**
+  * $O(n)$ (really it's $2n$) because we iterate once to count how many times values appear
+  * Then another iteration to replace the values
+* **Space Complexity**
+  * $O(k)$ where $k$ is the number of unique values
+* **Stability**
+  * No
+  * We just count how many times a value appear
+  * We then replace the array based on how many times a value appear
+  * The ordering is entirely irrelevant
