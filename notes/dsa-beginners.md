@@ -218,3 +218,11 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
   * We just count how many times a value appear
   * We then replace the array based on how many times a value appear
   * The ordering is entirely irrelevant
+
+# Binary Search
+## Search Array
+* Works if an array is already sorted
+* We would calculate the mid point, and see if the target value is greater or smaller, we then search either the right or left
+* This makes our search time only $O(\log{n})$ since the depth is $2^x = n$ so $x = log(n)$ is the depth
+* It's also possible that the value is simply not in the array, in which case we would just have `L`, `R`, and `mid` all pointing at the same element
+* When `L` finally becomes bigger than `R`, that's how we know the element doesn't exist (because even the last pointer itself isn't equal), and we can exit the loop
