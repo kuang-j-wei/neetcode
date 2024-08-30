@@ -226,3 +226,7 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
 * This makes our search time only $O(\log{n})$ since the depth is $2^x = n$ so $x = log(n)$ is the depth
 * It's also possible that the value is simply not in the array, in which case we would just have `L`, `R`, and `mid` all pointing at the same element
 * When `L` finally becomes bigger than `R`, that's how we know the element doesn't exist (because even the last pointer itself isn't equal), and we can exit the loop
+
+## Search Range
+* When ask to search in a range, especially when given some arbitrary function to determine eligibility, this is typically a binary search problem
+* By always going to the mid point we divide and conquer, and will be able to reach a worse case of $\log{n}$, instead of needing to traverse through all eligible numbers
