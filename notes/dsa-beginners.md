@@ -234,6 +234,7 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
 
 # Trees
 ## Binary Tree
+* A hierarchical data structure where each node has at most two children, typically referred to as the left child and the right child.
 * Will always have leaf nodes, which are nodes with no children
 * Can't have cycles
 * Sharing the same parent means they are sibling nodes
