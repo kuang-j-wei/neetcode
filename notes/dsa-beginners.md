@@ -154,7 +154,7 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
 |InsertionSort (stable) |$O(n^2)$|$O(1)$|
 |MergeSort (stable) |$O(n\log{n})$|$O(n)$|
 |QuickSort (unstable) |$O(n\log{n})$ to $O(n^2)$|$O(1)$|
-|BucketSort (unstable) |$O(n})$|$O(1)$|
+|BucketSort (unstable) |$O(n)$|$O(1)$|
 
 ## Insertion Sort
 * **How it works**:
@@ -179,9 +179,9 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
   * Since we are halving each time, the total "depth" will be $\log{n}$
   * At each layer, we will need to compare n numbers because each element will be iterated over once
 * **Time Complexity**
-  * $O(n\log{n})
+  * $O(n\log{n})$
   * Because there is a depth of $log(n)$ as we recursively split the array in half,
-  * and at each layer the merging act itself will take at wort $O(n)$ time as we iterate through the two left and right sub-arrays
+  * and at each layer the merging act itself will take at worst $O(n)$ time as we iterate through the two left and right sub-arrays
 * **Space Complexity**
   * $O(\log(n) + n) = O(n)$
   * Because log(n) memory stack, then we need to copy the sub-arrays at each merge step, which in total will take up n in space
@@ -230,3 +230,30 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
 ## Search Range
 * When ask to search in a range, especially when given some arbitrary function to determine eligibility, this is typically a binary search problem
 * By always going to the mid point we divide and conquer, and will be able to reach a worse case of $\log{n}$, instead of needing to traverse through all eligible numbers
+
+
+# Trees
+## Binary Tree
+* Will always have leaf nodes, which are nodes with no children
+* Can't have cycles
+* Sharing the same parent means they are sibling nodes
+* Height: the longest path to a descendant leaf node from this current node
+* Depth is the longest path to the root
+```
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+```
+## Binary Search Trees (BST)
+### Time complexity
+* $O(\log{n})$ for search, insert and deletion
+### Definition
+* All nodes in the left subtree have to be less than their root node
+  * (generally binary search trees do not have duplicates)
+* This property has to hold for every single node/subtree
+* Search Time Complexity: $O(\log{n})$ for a balanced tree (left and right height subtrees always have equal height or at most a diff of 1)
+* But strictly it's $O(h)$ where $h$ is the height of the tree
+* Main advantage over sorted arrays: *insertion and deletion is done in $O(\log{n})$ instead of $O(n)$*
+  
