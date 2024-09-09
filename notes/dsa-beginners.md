@@ -257,4 +257,69 @@ class TreeNode:
 * Search Time Complexity: $O(\log{n})$ for a balanced tree (left and right height subtrees always have equal height or at most a diff of 1)
 * But strictly it's $O(h)$ where $h$ is the height of the tree
 * Main advantage over sorted arrays: *insertion and deletion is done in $O(\log{n})$ instead of $O(n)$*
-  
+
+
+## BST Insert and Remove
+(tree linkage is done via recursion, where the `.right`/`.left` gets point to the next recursive call, and we return backwards once we reached a base case, and linkage gets created backwards from leaf back to the root)
+
+### Insert
+* We have to traverse the tree to find the right position
+* We can recursively call insert on each child node until we reach a null
+```
+def insert(root, val):
+    if not root:
+        return TreeNode(val)
+
+    if val > root.val:
+        root.right = insert(root.right, val)
+    elif val < root.val:
+        root.left = insert(root.left, val)
+    return root
+```
+* **Time Complexity**
+  * $O(h)$ because we still have to traverse the height of the tree
+* **Space Complexity**
+  * O(h) for the amount of recursive call stack
+
+### Remove
+* We first have to search where the target value is, which can take $O(h)$ to do
+* Once we found the matched node, we have either of these scenario
+  * Case 1: The node to be deleted only has 0 or 1 child
+    * Just link the parent to whichever surviving child is
+    * We can achieve this by returning the surviving child
+  * Case 2: The node to be deleted has 2 children
+    * Find the smallest leaf node of the right subtree
+    * Take that minimum node to now replace this to be deleted node
+    * This way we ensure that all values on the right of this newly replaced node will be greater
+    * We can do this replacement in-place, then the leftover work is to find this value in the right sub-tree and remove it
+    * Which can be achieved by another recursive call on the right sub-tree with this value as the target value
+
+```
+def minValueNode(root):
+    while root:
+        root = root.next
+    return root
+
+
+def remove(root, val):
+    if not root:
+        return None
+    if val > root.val:
+        root.right = remove(root.right, val)
+    elif val < root.val:
+        root.left = remove(root.left, val)
+    else:
+        if not root.right:
+            return root.left  # so the previous call's child gets set to this node
+        elif not root.left:
+            return root.right
+        else:  #  has two children, need to find the minimum value
+            min_node = minValueNode(root.right)
+            root.val = min_node.val
+            root.right = remove(root.right, root.val)
+    return root
+```
+
+* **Time Complexity**
+  * $O(2h)$ because we have to first traverse once to find the minimum value on the right most subtree
+  * Then we have to search the right sub-tree and remove this value
