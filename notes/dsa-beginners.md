@@ -322,4 +322,4 @@ def remove(root, val):
 
 * **Time Complexity**
   * $O(2h)$ because we have to first traverse once to find the minimum value on the right most subtree
-  * Then we have to search the right sub-tree and remove this value
+  * Then we have to search the right sub-tree and remove this value, which again could take $O(h')$, where $h'$ is the height of this subtree, because we again have to traverse this entire subtree
