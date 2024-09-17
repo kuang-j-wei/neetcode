@@ -260,9 +260,9 @@ class TreeNode:
 
 
 ## BST Insert and Remove
-(tree linkage is done via recursion, where the `.right`/`.left` gets point to the next recursive call, and we return backwards once we reached a base case, and linkage gets created backwards from leaf back to the root)
+(tree linkage is done via recursion, where the `.right`/`.left` gets pointed to the next recursive call, and we return backwards once we reached a base case, and linkage gets created backwards from leaf back to the root)
 
-### Insert
+### BST Insert
 * We have to traverse the tree to find the right position
 * We can recursively call insert on each child node until we reach a null
 ```
@@ -279,9 +279,9 @@ def insert(root, val):
 * **Time Complexity**
   * $O(h)$ because we still have to traverse the height of the tree
 * **Space Complexity**
-  * O(h) for the amount of recursive call stack
+  * $O(h)$ for the amount of recursive call stack
 
-### Remove
+### BST Remove
 * We first have to search where the target value is, which can take $O(h)$ to do
 * Once we found the matched node, we have either of these scenario
   * Case 1: The node to be deleted only has 0 or 1 child
@@ -321,5 +321,9 @@ def remove(root, val):
 ```
 
 * **Time Complexity**
-  * $O(2h)$ because we have to first traverse once to find the minimum value on the right most subtree
-  * Then we have to search the right sub-tree and remove this value, which again could take $O(h')$, where $h'$ is the height of this subtree, because we again have to traverse this entire subtree
+  * $O(2h)$ because
+    * We have to first traverse the tree to find the target node, which can be anywhere from the root to the leaf level of the tree
+    * We then have to traverse the right sub-tree to find the minimum value of this right sub-tree
+    * These two steps would then sum to the full height
+    * But we also have to go to the right subtree to remove this minimum value, so that could at most be another $h$ to traverse
+    * So in total this is $O(2h)$
