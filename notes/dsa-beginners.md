@@ -327,3 +327,35 @@ def remove(root, val):
     * These two steps would then sum to the full height
     * But we also have to go to the right subtree to remove this minimum value, so that could at most be another $h$ to traverse
     * So in total this is $O(2h)$
+
+
+## Depth-First Search
+* This is a recursive algorithm by nature
+* The key definition here is that we go as far deep into the leaf first before we start backtracking
+* The different "order" traversals are just about when the current node gets processed relative to its subtrees
+
+### In order traversal
+```
+self.traverse(root)
+print(root)
+self.traverse(root)
+```
+* In order traversal means that we go depth first
+  * We go as left as possible -> record the current leaf node -> go to the parent -> go traverse the right sub-tree
+* Useful for printing in ascending order
+
+### Pre order traversal
+```
+print(root)
+self.traverse(root)
+self.traverse(root)
+```
+* Useful for serializing a tree structure since it visits the parent before children nodes
+
+### Post order traversal
+```
+self.traverse(root)
+self.traverse(root)
+print(root)
+```
+* Useful for deleting a tree because it visits children before parents
