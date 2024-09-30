@@ -359,3 +359,32 @@ self.traverse(root)
 print(root)
 ```
 * Useful for deleting a tree because it visits children before parents
+
+
+## Breadth-First Search
+* We visit based on layers
+* Usually implemented iteratively, and uses a queue
+```
+from collections import deque
+
+def bfs(root):
+    queue = deque()
+    if root:
+        queue.append(root)
+    
+    while queue:
+        for i in range(len(queue)):  # this is how many nodes that are in this level
+            curr = queue.popleft()
+            print(curr.val)
+            if curr.left:
+                queue.append(curr.left)
+            if curr.right:
+                queue.append(curr.right)
+```
+![alt text](img/bfs-demo.png)
+
+* **Time Complexity**
+  * O(n) because we visit each node once
+* **Space Complexity**
+  * O(n) we will be storing the entire level in a queue at once
+    * This would occur at the leaf node level, which for a balanced tree is of width `(n+1)/2` (because the number of nodes doubles at every level)
