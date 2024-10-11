@@ -387,4 +387,4 @@ def bfs(root):
   * O(n) because we visit each node once
 * **Space Complexity**
   * O(n) we will be storing the entire level in a queue at once
-    * This would occur at the leaf node level, which for a balanced tree is of width `(n+1)/2` (because the number of nodes doubles at every level)
+    * This would occur at the leaf node level, which for a balanced tree is of width $\frac{n+1}{2}$ (because the number of nodes doubles at every level)
