@@ -388,3 +388,20 @@ def bfs(root):
 * **Space Complexity**
   * O(n) we will be storing the entire level in a queue at once
     * This would occur at the leaf node level, which for a balanced tree is of width $\frac{n+1}{2}$ (because the number of nodes doubles at every level)
+  
+
+## BST Sets and Maps
+* For sets and maps (sorted), the most common implementation is just a binary-search-tree
+* This way we can achieve the following in $O(\log{n})$
+  * Insert
+  * Delete
+  * Search
+  * (because you still have to traverse in order to insert and delete at the right places so takes $O(\log{n})$)
+
+### Sets
+* The values are sorted
+* Using a `TreeSet` allows us to achieve the above properties
+
+### Maps
+* Key-value pair
+* If using tree to implemented a sorted map, it's called a `TreeMap`
