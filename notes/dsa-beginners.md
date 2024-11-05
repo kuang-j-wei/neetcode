@@ -405,3 +405,56 @@ def bfs(root):
 ### Maps
 * Key-value pair
 * If using tree to implemented a sorted map, it's called a `TreeMap`
+
+# Backtracking
+Maintain a solution stack. Keep adding solution to it. If an invalid solution is found, we pop from the stack, and go back to the previous step.
+
+## Tree Maze
+### No memory version
+* Given a binary tree (not a binary search tree), find if a path to a leaf node can be found where a `0` is never encountered
+```
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def canReachLeaf(root):
+    if not root or root.val == 0:  # base case
+        return False
+    
+    if not root.left and not root.right:  # this is a leaf node
+        return True
+    if canReachLeaf(root.left):  # explore left subtree
+        return True
+    if canReachLeaf(root.right):  # explore right subtree
+        return True
+    return False
+```
+* If the left subtree returns `True`, we can return `True`
+* If the left subtree returns `False`, we can explore the right subtree
+* If the right subtree returns `True`, we can return `True`
+* If both left and right subtree returns `False`, then we can return `False`
+### With memory of path version
+```
+def leafPath(root, path):
+    if not root or root.val == 0:
+        return False
+    path.append(root.val)  # it passed the base case, so we can add it to path
+
+    if not root.left and not root.right:  # this is a leaf node, so we pass
+        return True
+    if leafPath(root.left, path):  # if left subtree is valid, so we pass
+        return True
+    if leafPath(root.right, path):  # if right subtree is valid, so we pass
+        return True    
+
+    path.pop()  # if we get to this step, that means all of the above three cases failed, so this is not a valid path, we must remove it
+    return False
+
+```
+* 
+## Time Complexity
+* $O(n)$ because in the worst case we visit every single node
+## Space Complexity
+* $O(h)$ because the recursion stack can be at most as deep as the height of the tree. And the stored path will at most have `h` elements as well
