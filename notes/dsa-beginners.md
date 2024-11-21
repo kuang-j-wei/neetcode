@@ -407,6 +407,8 @@ def bfs(root):
 * If using tree to implemented a sorted map, it's called a `TreeMap`
 
 # Backtracking
+It's mostly for cases where we want to have a a comprehensive traversal of all solutions.
+
 Maintain a solution stack. Keep adding solution to it. If an invalid solution is found, we pop from the stack, and go back to the previous step.
 
 ## Tree Maze
