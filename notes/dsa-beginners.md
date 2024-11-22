@@ -460,3 +460,41 @@ def leafPath(root, path):
 * $O(n)$ because in the worst case we visit every single node
 ## Space Complexity
 * $O(h)$ because the recursion stack can be at most as deep as the height of the tree. And the stored path will at most have `h` elements as well
+
+
+# Heap / Priority Queue
+## Heap Properties
+* For a priority queue want to be able to find min or max value really quickly
+  * Instead of first in first out, we remove values based on a specific priority
+* This is usually implemented with a heap
+* A heap is a specialized tree-based data structure
+  * For a min heap, the smallest value is at the root node
+  * For a max heap, the largest value is at the root node
+
+### Structure Property
+* TL;DR: Full at every level except the last layer, and root has to be min or max
+* Must be a complete binary tree
+* Every level must be filled, except for the lowest level, which needs to be filled from left to right with no gap
+
+### Order Property
+* All descendants should be greater than their ancestors (for a min-heap)
+
+## Heap Implementation
+* Under the hood it's implemented with a dynamic array of size $n + 1$
+* We don't use index 0, instead start the root at index 1
+* We then fill the array contiguously in a breadth-first manner
+* Then the children of a node can always be found with the following formula:
+```
+leftChild = heap[2 * i]
+rightChld = heap[2* i + 1]
+parent = heap[i // 2]  # we round down
+```
+
+In code this translates to 
+```
+class Heap:
+    def __init__(self):
+        self.heap = [0]
+```
+
+## Push and Pop
