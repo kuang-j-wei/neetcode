@@ -28,11 +28,12 @@ class MinHeap:
         # bubble up
         i = len(self.heap) - 1 # minus one because there is an additional 0
 
-        while i > 1:
+        while i > 1:  # so we terminate when root node is reached
             if self.heap[self.parent(i)] > self.heap[i]:
-                tmp = self.parent(i)
-                self.heap[self.parent(i)] = self.heap[i]
-                self.heap[i] = tmp
+                self.swap(i, self.parent(i))
                 i = self.parent(i)
+            else:  # the right order has been achieved
+                break
+
             else:
                 break
