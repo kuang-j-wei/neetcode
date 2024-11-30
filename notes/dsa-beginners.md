@@ -498,3 +498,17 @@ class Heap:
 ```
 
 ## Push and Pop
+|Operation|Time|
+|---|---|
+|view min max|$O(1)$|
+|push|$O(\log{n})$|
+|pop|$O(\log{n})$|
+### Push
+* We append the new value to our heap dynamic array
+* Then we bubble up, and check if this new value is smaller than the parent, and swap if so
+* Once we reach a position where there's no swap, we know that the ordering property is satisfied (or root is reached)
+
+### Pop
+* We first save the minimum value because that needs to be returned later
+* Then we swap with the root value, so structure property is satisfied
+* Then we bubble down and swap with the smallest of its two direct children
