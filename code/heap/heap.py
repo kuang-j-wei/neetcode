@@ -14,6 +14,14 @@ class MinHeap:
     def min(self):
         return self.heap[1]
 
+    def swap(self, curr, swp):
+        """
+        args:
+            swp: int, the index of the node to be swapped in
+            curr: int, the index of the node to be swapped
+        """
+        self.heap[curr], self.heap[swp] = self.heap[swp], self.heap[curr]
+
     def push(self, val):
         self.heap.append(val)
 
