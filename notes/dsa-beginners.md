@@ -121,7 +121,7 @@ def factorial(n):
 * Complexity
     * O(n) in time
     * O(1) in space
- 
+
 ## Fibonacci Sequence (two branches)
 ```
 def fibonacci(n):
@@ -136,7 +136,7 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
       [4]     [3]
       /\        /\
   [3] [2]     [2] [1]
-  /\    /\     /\ 
+  /\    /\     /\
 [2][1] [1][0] [1][0]
 /\
 [1][0]
@@ -146,7 +146,7 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
     * Because at each layer there are twice more calls
   * O(n) in space
     * Because it's determined by the deepest point of the recursion, and the maximum stack depth is just n
-  
+
 
 # Sorting
 |Algorithms|Time Complexity|Space Complexity
@@ -163,7 +163,7 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
   * Then a window of two, is the last smaller than its previous one? Swap, and step to previous index
   * Continue...
   * We will always check until we either
-    * Hit the first position 
+    * Hit the first position
     * Comparison has failed (i.e. the previous number indeed is smaller)
 * **Time Complexity**
   * $O(n^2)$ in the worst case and $O(n)$ in the best case
@@ -371,7 +371,7 @@ def bfs(root):
     queue = deque()
     if root:
         queue.append(root)
-    
+
     while queue:
         for i in range(len(queue)):  # this is how many nodes that are in this level
             curr = queue.popleft()
@@ -388,7 +388,7 @@ def bfs(root):
 * **Space Complexity**
   * O(n) we will be storing the entire level in a queue at once
     * This would occur at the leaf node level, which for a balanced tree is of width $\frac{n+1}{2}$ (because the number of nodes doubles at every level)
-  
+
 
 ## BST Sets and Maps
 * For sets and maps (sorted), the most common implementation is just a binary-search-tree
@@ -424,7 +424,7 @@ class TreeNode:
 def canReachLeaf(root):
     if not root or root.val == 0:  # base case
         return False
-    
+
     if not root.left and not root.right:  # this is a leaf node
         return True
     if canReachLeaf(root.left):  # explore left subtree
@@ -449,13 +449,13 @@ def leafPath(root, path):
     if leafPath(root.left, path):  # if left subtree is valid, so we pass
         return True
     if leafPath(root.right, path):  # if right subtree is valid, so we pass
-        return True    
+        return True
 
     path.pop()  # if we get to this step, that means all of the above three cases failed, so this is not a valid path, we must remove it
     return False
 
 ```
-* 
+*
 ## Time Complexity
 * $O(n)$ because in the worst case we visit every single node
 ## Space Complexity
@@ -490,7 +490,7 @@ rightChld = heap[2* i + 1]
 parent = heap[i // 2]  # we round down
 ```
 
-In code this translates to 
+In code this translates to
 ```
 class Heap:
     def __init__(self):
