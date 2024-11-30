@@ -35,5 +35,39 @@ class MinHeap:
             else:  # the right order has been achieved
                 break
 
-            else:
+    def pop(self):
+        if len(self.heap) == 1:
+            return None
+        elif len(self.heap) == 2:
+            return self.heap.pop()
+
+        res = self.heap[1]
+        self.heap[1] = self.heap.pop()
+
+        # bubble down
+        # continue to run until we don't have a left child or the two children
+        # are already smaller
+        i = 1
+        n = len(self.heap)
+        while True:
+            left = self.left_child(i)
+            right = self.right_child(i)
+            if left < n:  # as long as a left child still exists, we not at bottom
+                if (
+                    right < n
+                    and self.heap[right] < self.heap[left]
+                    and self.heap[i] > self.heap[right]
+                ):  # swap with right
+                    self.swap(i, right)
+                    i = right
+                elif (
+                    right < n
+                    and self.heap[left] < self.heap[right]
+                    and self.heap[i] > self.heap[left]
+                ): # swap with left
+                    self.swap(i, left)
+                    i = left
+                else:  # current node already smaller than its children
+                    break
+            else:  # no left child, we are at the bottom
                 break
