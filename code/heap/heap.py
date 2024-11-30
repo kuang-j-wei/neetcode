@@ -71,3 +71,18 @@ class MinHeap:
                     break
             else:  # no left child, we are at the bottom
                 break
+        return res
+
+if __name__ == "__main__":
+    heap = MinHeap()
+    heap.push(10)
+    heap.push(4)
+    heap.push(15)
+    heap.push(20)
+    heap.push(1)
+
+    assert heap.min() == 1
+    assert heap.pop() == 1
+    assert heap.min() == 4
+    heap.push(2)
+    assert heap.pop() == 2
