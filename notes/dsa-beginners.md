@@ -473,8 +473,8 @@ def leafPath(root, path):
 
 ### Structure Property
 * TL;DR: Full at every level except the last layer, and root has to be min or max
-* Must be a complete binary tree
-* Every level must be filled, except for the lowest level, which needs to be filled from left to right with no gap
+  * Must be a complete binary tree
+  * Every level must be filled, except for the lowest level, which needs to be filled from left to right with no gap
 
 ### Order Property
 * All descendants should be greater than their ancestors (for a min-heap)
