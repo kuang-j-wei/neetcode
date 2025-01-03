@@ -41,37 +41,37 @@ class MinHeap:
         elif len(self.heap) == 2:
             return self.heap.pop()
 
-        res = self.heap[1]
-        self.heap[1] = self.heap.pop()
+        root_idx = self.heap[1]
+        self.heap[1] = self.heap.pop()  # move last node to the top
 
-        # bubble down
+        # bubble down, alway swap with the smallest child
         # continue to run until we don't have a left child or the two children
         # are already smaller
         i = 1
         n = len(self.heap)
         while True:
-            left = self.left_child(i)
-            right = self.right_child(i)
-            if left < n:  # as long as a left child still exists, we not at bottom
+            left_index = self.left_child(i)
+            right_index = self.right_child(i)
+            if left_index < n:  # as long as a left child still exists, we not at bottom
                 if (
-                    right < n
-                    and self.heap[right] < self.heap[left]
-                    and self.heap[i] > self.heap[right]
+                    right_index < n
+                    and self.heap[right_index] < self.heap[left_index]
+                    and self.heap[i] > self.heap[right_index]
                 ):  # swap with right
-                    self.swap(i, right)
-                    i = right
+                    self.swap(i, right_index)
+                    i = right_index
                 elif (
-                    right < n
-                    and self.heap[left] < self.heap[right]
-                    and self.heap[i] > self.heap[left]
+                    right_index < n
+                    and self.heap[left_index] < self.heap[right_index]
+                    and self.heap[i] > self.heap[left_index]
                 ): # swap with left
-                    self.swap(i, left)
-                    i = left
+                    self.swap(i, left_index)
+                    i = left_index
                 else:  # current node already smaller than its children
                     break
             else:  # no left child, we are at the bottom
                 break
-        return res
+        return root_idx
 
 if __name__ == "__main__":
     heap = MinHeap()
