@@ -249,7 +249,12 @@ class TreeNode:
 ```
 ## Binary Search Trees (BST)
 ### Time complexity
-* $O(\log{n})$ for search, insert and deletion
+|Operation|Time|
+|---|---|
+|Search|$O(\log{n})$|
+|Insert|$O(\log{n})$|
+|Delete|$O(\log{n})$|
+
 ### Definition
 * All nodes in the left subtree have to be less than their root node
   * (generally binary search trees do not have duplicates)
