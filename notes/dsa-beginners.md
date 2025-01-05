@@ -503,6 +503,7 @@ class Heap:
 ```
 
 ## Push and Pop
+[code pointer](../code/heap/heap.py)
 |Operation|Time|
 |---|---|
 |view min max|$O(1)$|
