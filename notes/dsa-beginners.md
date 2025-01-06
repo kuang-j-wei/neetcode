@@ -503,7 +503,7 @@ class Heap:
 ```
 
 ## Push and Pop
-[code pointer](../code/heap/heap.py)
+[code pointer](../code/heap/heap.py#L25)
 |Operation|Time|
 |---|---|
 |view min max|$O(1)$|
@@ -518,3 +518,11 @@ class Heap:
 * We first save the minimum value because that needs to be returned later
 * Then we swap with the root value, so structure property is satisfied
 * Then we bubble down and swap with the smallest of its two direct children
+
+## Heapify
+* $O(n)$ time complexity
+* It turns a regular array into a heap
+* It works by first going to the first node that doesn't have any children
+* Then we check whether the current node is smaller than the two children
+  * If it is smaller, move up
+* If it is not smaller, then we exchange with the smallest of the two children, then bubble down again to again make sure the subtree still satisfies the heap ordering property
