@@ -1,3 +1,1 @@
-Study notes for Kuang Wei preparing for SWE/MLE Data Structure and Algorithms questions.
-
-Test changes on chromebook.
+Study notes for [@kuang-j-wei](https://github.com/kuang-j-wei) preparing for SWE/MLE Data Structure and Algorithms questions.
