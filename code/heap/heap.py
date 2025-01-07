@@ -71,16 +71,7 @@ class MinHeap:
         self.heap = [-1] + nums[:]
 
         for i in range(first_node_with_children, 0, -1):
-            left_idx = self.left_child(i)
-            right_idx = self.right_child(i)
-            left_val = self.heap[left_idx]
-            right_val = self.heap[right_idx]
-            swp_idx = left_idx if left_val <= right_val else right_idx
-            swp_val = min(left_val, right_val)
-            
-            if self.heap[i] > swp_val:
-                self.swap(i, swp_idx)
-                self.percolate_down(swp_idx)
+            self.percolate_down(i)
         return None
 
     def percolate_down(self, starting_index):
