@@ -534,4 +534,11 @@ class Heap:
 * Starting from the first level where there is at least one non-leaf nodes, we need to go through every node in this level
 * Every time we go up a level, the number of nodes decrease by half
 * But then the number of levels we need to percolate down also increase
-* The sum nicely sums to roughly O(n)
+* The sum nicely sums to roughly $O(n)$
+### Using heaps to sort
+* We can build an array into a heap in $O(n)$
+* We can then pop elements one by one to build into a sorted array
+* Since each pop action takes $O(\log{n})$, the total time complexity is $O(n\log{n})$
+* Note that for general searching, we still have to search through the whole heap, so time is $O(n)$
+  * This is because say the target value is larger than the current root of a min heap
+  * We don't know if the target is going to be in left or right subtree
