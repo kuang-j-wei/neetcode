@@ -44,8 +44,8 @@ class MinHeap:
         i = len(self.heap) - 1 # minus one because there is an additional 0
 
         while i > 1:  # so we terminate when root node is reached
-            if self.heap[self.parent(i)] > self.heap[i]:
-                parent_idx = self.parent(i)
+            parent_idx = self.parent(i)
+            if self.heap[parent_idx] > self.heap[i]:
                 self.swap(i, parent_idx)
                 i = parent_idx
             else:  # the right order has been achieved
@@ -94,14 +94,12 @@ class MinHeap:
                     right_index < n
                     and self.heap[right_index] < self.heap[left_index]
                     and self.heap[i] > self.heap[right_index]
-                ):  # swap with right
+                ):  # right exists, and right smaller, swap with right
                     self.swap(i, right_index)
                     i = right_index
                 elif (
-                    right_index < n
-                    and self.heap[left_index] < self.heap[right_index]
-                    or self.heap[i] > self.heap[left_index]
-                ): # swap with left
+                    self.heap[i] > self.heap[left_index]
+                ): # left smaller, swap with left
                     self.swap(i, left_index)
                     i = left_index
                 else:  # current node already smaller than its children
