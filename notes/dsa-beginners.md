@@ -509,6 +509,7 @@ class Heap:
 |view min max|$O(1)$|
 |push|$O(\log{n})$|
 |pop|$O(\log{n})$|
+|heapify|$O(n)$|
 ### Push
 * We append the new value to our heap dynamic array
 * Then we bubble up, and check if this new value is smaller than the parent, and swap if so
@@ -520,9 +521,17 @@ class Heap:
 * Then we bubble down and swap with the smallest of its two direct children
 
 ## Heapify
-* $O(n)$ time complexity
+### Description
 * It turns a regular array into a heap
+### How it works
 * It works by first going to the first node that doesn't have any children
 * Then we check whether the current node is smaller than the two children
   * If it is smaller, move up
-* If it is not smaller, then we exchange with the smallest of the two children, then bubble down again to again make sure the subtree still satisfies the heap ordering property
+  * If it is not smaller, then we exchange with the smallest of the two children, then bubble down again to make sure the subtree still satisfies the heap ordering property
+* We continue doing this until we've reached the top root node
+### Time Complexity
+* $O(n)$
+* Starting from the first level where there is at least one non-leaf nodes, we need to go through every node in this level
+* Every time we go up a level, the number of nodes decrease by half
+* But then the number of levels we need to percolate down also increase
+* The sum nicely sums to roughly O(n)
