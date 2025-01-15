@@ -542,3 +542,26 @@ class Heap:
 * Note that for general searching, we still have to search through the whole heap, so time is $O(n)$
   * This is because say the target value is larger than the current root of a min heap
   * We don't know if the target is going to be in left or right subtree
+
+
+# Hashing
+## Hash Usage
+### General Description
+Hash maps are useful for quickly accessing unique counts.
+
+Note that the difference between a set and a map is that sets contains keys only. Maps contain key-value pairs.
+
+### Time Complexity
+| Operation | TreeMap | HashMap | Array |
+| --- | --- | --- | --- |
+|Insert | $O(\log{n})$ | $O(1)$ | $O(n)$ |
+|Remove | $O(\log{n})$ | $O(1)$ | $O(n)$ |
+|Search| $O(\log{n})$ | $O(1)$ | $O(\log{n})$, if sorted |
+|Inorder Traversal | $O(n)$ | - | - |
+
+Note that for hash map this is technically the average case, not the worst case.
+
+### Tree Maps vs Hash Maps
+* The main downside of hash maps is that its not sorted
+* If we were to traverse the keys in order, we would have to sort the keys first
+* Sorting the keys would take $O(n\log{n})$ in total time, just based on the common sorting algorithm's time complexity
