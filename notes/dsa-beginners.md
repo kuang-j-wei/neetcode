@@ -87,6 +87,14 @@ tail = node2
 
 So overall, **arrays are still better for most cases because the advantage in insert/remove is handicapped by the O(n) of i-th element access anyway**
 
+## Dummy Nodes
+* Dummy nodes are useful whenever we are doing manipulations to a linked lists where we might run into `Null` edge cases
+* It allows all real nodes to always have a valid `next` and `prev` pointers
+  * If singly linked only, then we only need `next` pointer
+  * So only dummy head is needed; dummy tail not needed (but we will point tail to dummy head at init)
+  * Conversely if it's a doubly linked list, then dummy tail is needed and dummy head should be linked to dummy tail at init
+* Since every node will always have a valid `next` and `prev` pointers, we won't need to build out special edges cases for the 0th and (n-1)th index
+
 
 ## Queues
 * Differ from a stack in that it's FIFO
