@@ -192,3 +192,66 @@ class DoublyLinkedListDummy:
         true_tail = self.tail.prev
         true_tail.prev.next = true_tail.next
         self.tail.prev = true_tail.prev
+
+
+class SinglyLinkedListDummy:
+    def __init__(self):
+        self.size = 0
+        self.head = Node(None)
+    
+    def get(self, index):
+        if index > self.size - 1:
+            return -1
+
+        curr = self.head
+        for i in range(index):
+            curr = curr.next
+        
+        return curr.next.val
+
+    def addAtHead(self, val):
+        new_node = Node(val)
+
+        new_node.next = self.head.next
+        self.head.next = new_node
+        self.size += 1
+    
+    def addAtTail(self, val):
+        new_node = Node(val)
+
+        curr = self.head
+        for i in range(self.size):
+            curr = curr.next
+        
+        curr.next = new_node
+
+        self.size += 1
+    
+    def addAtIndex(self, index, val):
+        if index > self.size:
+            return None
+        
+        new_node = Node(val)
+
+        curr = self.head
+
+        for i in range(index):
+            curr = curr.next
+        
+        new_node.next = curr.next
+        curr.next = new_node
+
+        self.size += 1
+    
+    def deleteAtIndex(self, index):
+        if index > self.size - 1:
+            return None
+
+        curr = self.head
+        
+        for i in range(index):
+            curr = curr.next
+        
+        curr.next = curr.next.next
+
+        self.size -= 1
