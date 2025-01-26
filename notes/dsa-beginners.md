@@ -465,7 +465,7 @@ def leafPath(root, path):
         return True
 
     path.pop()  # if we get to this step, that means all of the above three cases failed, so this is not a valid path, we must remove it
-    return False
+    return 
 
 ```
 *
@@ -548,7 +548,7 @@ class Heap:
 * We can then pop elements one by one to build into a sorted array
 * Since each pop action takes $O(\log{n})$, the total time complexity is $O(n\log{n})$
 * Note that for general searching, we still have to search through the whole heap, so time is $O(n)$
-  * This is because say the target value is larger than the current root of a min heap
+  * This is because say the target value is larger  ent root of a min heap
   * We don't know if the target is going to be in left or right subtree
 
 
@@ -573,3 +573,62 @@ Note that for hash map this is technically the average case, not the worst case.
 * The main downside of hash maps is that its not sorted
 * If we were to traverse the keys in order, we would have to sort the keys first
 * Sorting the keys would take $O(n\log{n})$ in total time, just based on the common sorting algorithm's time complexity
+
+## Hash Implementation
+Most hash maps are implemented using arrays under the hood.
+
+We will use a hash function that takes a key and convert it into an integer.
+
+The integer will be the index that stores the key-value pair in the array.
+
+### Time Complexity
+|Operation | Time |
+| --- | --- |
+| Insert | O(1) |
+| Remove | O(1) |
+| Search | O(1) |
+
+These are only true on average, and assuming we have a good hash function and low number of collisions.
+
+In the worst case, time complexity could be $O(n)$
+
+### Insertion and Hashing
+A simple example is to convert each character of the string into its ASCII code and sum them up.
+
+Since this sum will likely be larger than the underlying array size, we **modulo by the size of the array** to avoid going over bound. (this is called **pre-hashing**).
+
+Now if the pre-hashing result lead to a location that's occupied by a key-value pair, then this is called a collision
+
+### Resizing
+We will keep track of the **size of the array** and the number of **non-empty elements**.
+
+When the array becomes half full, we double the size of the array, in order to reduce the chances of collisions.
+
+This will be done at the moment that half full is reached, before the next insertion is performed.
+
+(a better way is to increase the size of the array to the next prime number)
+
+
+### Rehashing
+Once the resize is performed, the existing key-value pairs' new index position needs to be recalculated.
+
+So for example, we need to re-perform `sum(ASCII codes) % new_capacity`
+
+### Collisions
+If two keys map to the same position (i.e. `33 % 8 = 1` but `49 % 8 = 1` also)
+
+Two common solutions are:
+
+1. Chaining - keep at the same location, but use a linked list to store the subsequent new key-value pairs
+   a. While if all key-value pairs end up at the same position the time complexity would be $O(n)$, the average time complexity is still O(1)
+2. Open Addressing - we just keep iterating to the next elements until we hit a non-null value
+   a. This also means that when we look up a key, if at the current index the key doesn't match, we have to continue going to the next element to see if the key match
+   b. Because when inserting, maybe a collision occurred so the key was pushed to a later element
+   c. We have to do this iteration until a Null element is reached, then we know the key doesn't exist
+
+#### Open Addressing vs Chaining
+Open Addressing Pros:
+* More efficient if there are a small number of collisions
+Open Addressing Cons:
+* Number of entries to the map is limited by the size of the array
+* Harder to implement compared to chaining
