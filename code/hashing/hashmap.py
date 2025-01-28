@@ -41,19 +41,18 @@ class HashTable:
         return result
 
     def insert(self, key: int, value: int) -> None:
-        self.len += 1
-
-        if self.len >= self.capacity // 2:
+        if (self.len + 1) >= self.capacity // 2:  # +1 is needed to pretend we've gone ahead and inserted already
             self.resize()
         
         hash = self._hashing(key)
         node = self.hash_table[hash]
 
-        if node is None:
+        if node is None:  # current slot empty
             self.hash_table[hash] = Pair(key, value)
-        elif node.key == key:
+            self.len += 1  # these len + 1 can't be done before hand because in self.resize len gets re-calculated
+        elif node.key == key:  # current slot already occupied by the exact key, just modify value in place
             node.val = value
-        else:  # collision, need to go the the tail end, but we also might have to update middle
+        else:  # collision, either go to the tail end or modifies the middle node with matching key with new value
             while node.next:
                 if node.next.key == key:
                     node.next.val = value
@@ -61,6 +60,7 @@ class HashTable:
                 else:
                     node = node.next
             node.next = Pair(key, value)
+            self.len += 1
 
     def resize(self) -> None:
         old_table = self.hash_table
@@ -69,8 +69,9 @@ class HashTable:
         self.len = 0  # later insert will re adjust size
 
         for node in old_table:
-            if node:
+            while node:
                 self.insert(node.key, node.val)
+                node = node.next  # we need to make sure all collision chains are still inserted back, and this will make sure self.len gets incremented
 
     def remove(self, key: int) -> bool:
         if self.get(key) == -1:
