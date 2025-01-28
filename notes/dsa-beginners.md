@@ -593,11 +593,11 @@ These are only true on average, and assuming we have a good hash function and lo
 In the worst case, time complexity could be $O(n)$
 
 ### Insertion and Hashing
-A simple example is to convert each character of the string into its ASCII code and sum them up.
+A simple example is to convert each character of the string into its ASCII code and sum them up (this is the pre-hash step).
 
-Since this sum will likely be larger than the underlying array size, we **modulo by the size of the array** to avoid going over bound. (this is called **pre-hashing**).
+Since this sum will likely be larger than the underlying array size, we **modulo by the size of the array** to avoid going over bound, thus producing a hash
 
-Now if the pre-hashing result lead to a location that's occupied by a key-value pair, then this is called a collision
+Now if the hash lead to a location that's occupied by a key-value pair, then this is called a collision
 
 ### Resizing
 We will keep track of the **size of the array** and the number of **non-empty elements**.
