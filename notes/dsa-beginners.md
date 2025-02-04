@@ -632,3 +632,55 @@ Open Addressing Pros:
 Open Addressing Cons:
 * Number of entries to the map is limited by the size of the array
 * Harder to implement compared to chaining
+
+# Graphs
+## Intro to Graphs
+### Graph Terminology
+The number of edges, $E$, will always be $E \leq V^2$, where $V$ is the number of vertices
+
+Because each node can at most point to every other node and itself in the graph
+
+### Directed vs Undirected
+Trees and linked lists are directed graphs
+
+### Matrix Representation
+For example:
+```
+grid = [[0, 0, 0, 0],
+        [1, 1, 0, 0],
+        [0, 0, 0, 1],
+        [0, 1, 0, 0]]
+```
+`1's` represents inaccessible areas, while `0's` are free nodes.
+
+We can only move up, down, left, and right. So for example, `grid[0][0]` and `grid[0][1]` are connected by an undirected edge, whi.e `grid[0][0]` and `grid[1][0]` are not connected.
+
+**Space complexity**: $O(r \cdot c)$ where $r$ is the number of rows and $c$ is the number of columns
+
+### Adjacency Matrix Representation
+For example:
+```
+adjMatrix = [[0, 0, 0, 0],
+             [1, 1, 0, 0],
+             [0, 0, 0, 1],
+             [0, 1, 0, 0]]
+```
+
+Each index represent a vertex: `0` denotes that an edge does not exist between an `adjMatrix[v1][v2]` pair, while `1` denotes an edge exists.
+
+So for example in this case `adjMatrix[0][0] == 0` means node 0 is not self connected, and `adjMatrix[0][1] == 0` means node 0 is not connected/pointed to node 1, but `adjMatrix[1][0] == 1` means that node 1 is pointed to node 0
+
+**Space complexity**: $O(V^2)$ where $V$ is the number of vertices. So if there are only a few edges, we are wasting space writing `0's`
+
+### Adjacency List
+We create a separate `GraphNode` class to store all its neighbors in a list
+
+```
+# GraphNode used for adjacency list
+class GraphNode:
+    def __init__(self, val):
+        self.val = val
+        self.neighbors = []
+```
+
+**Space complexity:** $O(V + E)$ since we are only storing the exact number of nodes and edges that we need.
