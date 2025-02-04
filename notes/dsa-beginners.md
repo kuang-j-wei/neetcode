@@ -655,7 +655,7 @@ grid = [[0, 0, 0, 0],
 
 We can only move up, down, left, and right. So for example, `grid[0][0]` and `grid[0][1]` are connected by an undirected edge, whi.e `grid[0][0]` and `grid[1][0]` are not connected.
 
-**Space complexity**: $O(r \cdot c)$ where $r$ is the number of rows and $c$ is the number of columns
+**Space complexity**: $O(r \cdot c)$ where $r$ is the number of rows and $c$ is the number of columns. So if there are $V^2$ nodes, we still would roughly only need a space of $O(V)$ to store all information
 
 ### Adjacency Matrix Representation
 For example:
@@ -670,7 +670,7 @@ Each index represent a vertex: `0` denotes that an edge does not exist between a
 
 So for example in this case `adjMatrix[0][0] == 0` means node 0 is not self connected, and `adjMatrix[0][1] == 0` means node 0 is not connected/pointed to node 1, but `adjMatrix[1][0] == 1` means that node 1 is pointed to node 0
 
-**Space complexity**: $O(V^2)$ where $V$ is the number of vertices. So if there are only a few edges, we are wasting space writing `0's`
+**Space complexity**: Even if there are only $V$ nodes, we still need a $V^2$ matrix to represent all the edges. So if there are not many edges, this is an inefficient use of space.
 
 ### Adjacency List
 We create a separate `GraphNode` class to store all its neighbors in a list
