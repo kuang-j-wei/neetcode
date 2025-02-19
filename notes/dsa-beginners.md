@@ -684,3 +684,10 @@ class GraphNode:
 ```
 
 **Space complexity:** $O(V + E)$ since we are only storing the exact number of nodes and edges that we need.
+
+## Matrix DFS
+Cases where we have to stop (base case) (`return False`)
+* `min(r, c) < 0`, we reach lower than origin
+* `r == ROWS` or `c == COLS` becuase we've reached beyond the max boundaries
+* `grid[r][c] == 1` we reached a blocked position
+* `(r, c) in visit` because we've visited this node before
