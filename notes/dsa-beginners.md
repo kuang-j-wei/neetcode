@@ -691,3 +691,14 @@ Cases where we have to stop (base case) (`return False`)
 * `r == ROWS` or `c == COLS` becuase we've reached beyond the max boundaries
 * `grid[r][c] == 1` we reached a blocked position
 * `(r, c) in visit` because we've visited this node before
+
+### Time Complexity
+$4^{N \times M}$
+
+Where $N$ and $M$ are the number of rows and columns
+
+And this is because at every elements we can have 4 possible paths (4 operations needed)
+
+### Space Complexity
+$O(N \times M)$
+The recursive call stack can be at most the entire size of the matrix.
