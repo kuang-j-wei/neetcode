@@ -702,3 +702,45 @@ And this is because at every elements we can have 4 possible paths (4 operations
 ### Space Complexity
 $O(N \times M)$
 The recursive call stack can be at most the entire size of the matrix.
+
+## Matrix BFS
+Commonly used to find the shortest path in a graph.
+
+Algorithm goes like this:
+1. Note down the boundaries (i.e. the dimension of the matrix)
+2. Initialize a queue
+3. Initialize a hashset to record what's been visited
+4. Initialize 0 as the length
+5. Add origin `(0, 0)` to the queue and mark it as visited
+6. Then we pop the queue from the left
+7. If the end coordinate is reached, return the length
+8. Otherwise, check if the neighbors met edge cases; if so, skip, otherwise, add them to the queue and also mark the neighbors as visited
+
+Implementation:
+```
+# Shortest path from top left to bottom right
+def bfs(grid):
+    ROWS, COLS = len(grid), len(grid[0])
+    visit = set()
+    queue = deque()
+    queue.append((0, 0))
+    visit.add((0, 0))
+
+    length = 0
+    while queue:
+        for i in range(len(queue)):
+            r, c = queue.popleft()
+            if r == ROWS - 1 and c == COLS - 1:
+                return length
+
+            neighbors = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+            for dr, dc in neighbors:
+                if (min(r + dr, c + dc) < 0 or
+                    r + dr == ROWS or c + dc == COLS or
+                    (r + dr, c + dc) in visit or grid[r + dr][c + dc] == 1):
+                    continue
+                queue.append((r + dr, c + dc))
+                visit.add((r + dr, c + dc))
+        length += 1
+  ```
+  The `for` loop is used so that `length` only gets incremented when a layer is done.
