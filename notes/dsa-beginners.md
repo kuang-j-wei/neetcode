@@ -839,3 +839,12 @@ $O(V + E)$ because we at worst would have to visit every single node, plus we at
 
 **Space Complexity**
 The queue can at most grow to the size of the graph (i.e. all nodes are connected to the first node). So $O(V) = O(n \cdot m)$
+
+### DFS vs BFS Best Use Cases
+* DFS
+  * Path finding and maze problems
+  * Memory efficiency is a requirement
+    * It's more efficient than BFS because it only stores the deepest path
+* BFS
+  * Finding shortest path
+  * Traversal requiring level ordering
