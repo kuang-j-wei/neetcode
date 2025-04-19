@@ -744,3 +744,98 @@ def bfs(grid):
         length += 1
   ```
   The `for` loop is used so that `length` only gets incremented when a layer is done.
+
+
+## Adjacency List
+A list of lists would contain edges, denoting the source node to destination node.
+
+Then the adjacency list could just be a dictionary, where the keys are the nodes, and the values are lists of the neighbors of each node.
+
+Example code:
+```
+edges = [["A", "B"], ["B", "C"], ["B", "E"], ["C", "E"], ["E", "D"]]
+
+adjacency_list = {}
+
+for source, destination in edges:
+    if source not in adjacency_list:
+        adjacency_list[source] = []
+    elif destination not in adjacency_list:
+        adjacency_list[destination] = []
+    adjacency_list[source].append(destination)
+```
+
+### DFS on adjacency list
+Here's an example of counting the number of paths from a node to a target.
+
+At the first node, we add this node to the visited set, then we traverse through its neighbors.
+
+At each neighbor, we recursively call `dfs` itself again.
+
+The base case we check is whether a node has been visited, and whether target has been reached. If target has been reached, then we return 1.
+
+After all the neighbors have had dfs called on it, we remove the current node from the visited set.
+
+```
+def df(node, target, adjList, visited):
+    if node == target:
+        return 1
+    if node in visited:
+        return 0
+    
+    count = 0
+    visited.add(node)
+
+    for neighbor in adjList[node]:  # adjList[node] is the list of all neighbors
+        count = dfs(neighbor, target, adjList, visited)
+    visited.remove(node)
+
+    return count
+```
+
+**Time Complexity**
+In the worst case, each node is connected to every other node. Say there are $V$ nodes. Then at each node, we have to call `dfs` $V$ times. So in total we would have to call `dfs` times $V^V$, resulting in $O(V^V)$, or in other words, $O(E^V)$ where E is the average number of edges. At each $V$ we have $E$ step, so it's $E \times E \times E \times ...$ $V$ times
+
+**Space Complexity**
+The stack can also grow to $O(V)$, which is all the vertices in the graph. This is the maximum depth, which would also be the maximum height of the recursive stack. The `visited` set can also at most contain $V$ entries.
+
+So for DFS, this is an advantage where the space complexity is constrained by the number of nodes.
+
+### BFS on adjacency list
+Now the problem is to find the shortest path from a node to a target.
+
+This time we go layer by layer. So at each layer we know the number of steps it takes to get to this layer.
+
+Once at a layer, if the target is discovered, then we know this is the first occurrence where a layer contains the target, thus the current layer is the shortest path.
+
+If target is not found, then we go through neighbors to add to the queue. But only do so if the neighbor is not yet visited. If not visited, we add to the visited set and then add to the queue.
+
+```
+from collections import deque
+def bfs(node, target, adjList):
+    length = 0
+    visited = set{}
+    queue = deque()
+
+    visited.add(node)
+    queue.add(node)
+
+    while queue:
+        for i in range(len(queue)):  # current layer
+            curr = queue.popleft()
+            if curr == target:  ## target has been reached, the first time this happens this must be the first time a layer contains the target, thus is the shortest path
+                return length
+            
+            for neighbor in adjList[node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.add(neighbor)
+        length += 1
+    return length
+```
+
+**Time Complexity**
+$O(V + E)$ because we at worst would have to visit every single node, plus we at worst have to traverse each edge at least once.
+
+**Space Complexity**
+The queue can at most grow to the size of the graph (i.e. all nodes are connected to the first node). So $O(V) = O(n \cdot m)$
