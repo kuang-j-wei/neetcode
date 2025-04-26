@@ -848,3 +848,93 @@ The queue can at most grow to the size of the graph (i.e. all nodes are connecte
 * BFS
   * Finding shortest path
   * Traversal requiring level ordering
+
+
+# Dynamic Programming
+DP is about breaking down big problems into smaller sub-problems.
+
+It's an optimized version of recursion. And the outcome of each subproblem is stored in order to avoid redundant calculation, thus speeding up the algorithm.
+
+## 1-Dimension DP
+It's called 1D because each subproblem can be cached in a 1D data structure that is proportional to $n$.
+
+We can use the Fibonacci Sequence as an example
+
+### Brute Force Recursion
+```
+def fib(n):
+    if n <= 1:
+        return n
+      
+    
+    return fib(n - 2) + fib(n - 1)
+```
+
+The time complexity of this is $O(2^n)$ because at each level we will need to do two operations, and there will be $n$ levels.
+
+For space complexity, it will also be $O(n)$ because that's the max height of the recursive stack
+
+### Top down dynamic programming
+We can start from the top ($n$), then recursively reach down to the base case ($n == 0$ and $n == 1$).
+
+But for each of the sub-problem, once a calculation has been done, we can cache it in order to avoid redundant computation.
+
+For example `fib(4)` involves `fib(3)` and `fib(2)`. But `fib(3)` will also need `fib(2)` and `fib(1)` so we can store `fib(2)` and not needing to calculate it again.
+
+It essentially let us shave off half of the binary tree, and instead will only need to do a chain of calculation that reaches the depth of the tree so the time complexity will be $O(n)$
+
+```
+def fib(n, cache):
+    if n <= 1:
+        return n
+    if n in cache:
+        return cache[n]
+    
+    cache[n] = fib(n - 2, cache) + fib(n - 1, cache)
+    return cache[n]
+```
+
+**Time Complexity:**
+$O(n)$ because now we just need to traverse down a linear path from `n` to `0` from top to bottom and won't need to compute the entire full $2^n$ nodes of binary tree because the repeated sub-problems are cached. (it's really $O(2n)$ because for each node it does split to another leaf node that doesn't have a subsequent tree following down, but does still need to take $O(1)$ to access the cached value)
+
+**Space Complexity:**
+$O(n)$ because we now have a `cache` that can also take up $O(n)$ in order to store all elements in the Fibonacci Sequence.
+
+### Bottom up dynamic programming
+We can also start from the base cases of `0` and `1`. And we can store the subproblem in a 1D array one by one as we iterate up to `n`
+
+```
+def fib(n):
+    if n <= 1:
+        return n
+
+    cache = [0, 1]
+
+    for i in range(2, n + 1):
+        cache.append(cache[i - 1] + cache[i - 2])
+
+    return cache[-1]
+```
+
+**Time Complexity:**
+$O(n)$ because we are iterating up to $n$
+
+**Space Complexity:**
+$O(n)$ because we are storing a `cache` size of `n`
+
+We can even further optimize this solution in terms of space complexity, because once we have processed an index, anything earlier than more than 2 indices are not needed anymore.
+
+```
+def fib(n):
+    if n <= 1:
+        return n
+
+    cache = [0, 1]
+
+    for i in range(2, n + 1):
+        tmp = cache[1]
+        cache[1] = cache[1] + cache[0]
+        cache[0] = tmp
+
+    return cache[-1]
+```
