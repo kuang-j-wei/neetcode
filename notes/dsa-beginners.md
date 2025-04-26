@@ -43,7 +43,7 @@ Since the out order is reverse of the in order, it can be used to **reverse sequ
 * (for array it is always O(n) because we have to copy over the remainder)
 
 ### Linked List Traversal
-```
+```python
 cur = ListNode1
 while cur:
     cur = cur.next
@@ -108,7 +108,7 @@ Could be done with arrays too, but you would need to shift data as we enqueue an
 Recursion calls itself until a base case is reached.
 ## Factorial (single branch)
 * Recursive solution - think of factorial's definition, and the base case definition.
-```
+```python
 def factorial(n):
     if n == 1:
         return 1
@@ -119,7 +119,7 @@ def factorial(n):
   * O(n) in space (each function call needs its memory to put the function on hold)
 
 * Iterative solution
-```
+```python
 def factorial(n):
     res = 1
     for i in range(1, n+1, 1):
@@ -131,7 +131,7 @@ def factorial(n):
     * O(1) in space
 
 ## Fibonacci Sequence (two branches)
-```
+```python
 def fibonacci(n):
     if n <= 1:
         return 1
@@ -248,7 +248,7 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
 * Sharing the same parent means they are sibling nodes
 * Height: the longest path to a descendant leaf node from this current node
 * Depth is the longest path to the root
-```
+```python
 class TreeNode:
     def __init__(self, val):
         self.val = val
@@ -278,7 +278,7 @@ class TreeNode:
 ### BST Insert
 * We have to traverse the tree to find the right position
 * We can recursively call insert on each child node until we reach a null
-```
+```python
 def insert(root, val):
     if not root:
         return TreeNode(val)
@@ -307,7 +307,7 @@ def insert(root, val):
     * We can do this replacement in-place, then the leftover work is to find this value in the right sub-tree and remove it
     * Which can be achieved by another recursive call on the right sub-tree with this value as the target value
 
-```
+```python
 def minValueNode(root):
     while root:
         root = root.next
@@ -348,7 +348,7 @@ def remove(root, val):
 * The different "order" traversals are just about when the current node gets processed relative to its subtrees
 
 ### In order traversal
-```
+```python
 self.traverse(root)
 print(root)
 self.traverse(root)
@@ -358,7 +358,7 @@ self.traverse(root)
 * Useful for printing in ascending order
 
 ### Pre order traversal
-```
+```python
 print(root)
 self.traverse(root)
 self.traverse(root)
@@ -366,7 +366,7 @@ self.traverse(root)
 * Useful for serializing a tree structure since it visits the parent before children nodes
 
 ### Post order traversal
-```
+```python
 self.traverse(root)
 self.traverse(root)
 print(root)
@@ -377,7 +377,7 @@ print(root)
 ## Breadth-First Search
 * We visit based on layers
 * Usually implemented iteratively, and uses a queue
-```
+```python
 from collections import deque
 
 def bfs(root):
@@ -427,7 +427,7 @@ Maintain a solution stack. Keep adding solution to it. If an invalid solution is
 ## Tree Maze
 ### No memory version
 * Given a binary tree (not a binary search tree), find if a path to a leaf node can be found where a `0` is never encountered
-```
+```python
 class TreeNode:
     def __init__(self, val):
         self.val = val
@@ -504,7 +504,7 @@ parent = heap[i // 2]  # we round down
 ```
 
 In code this translates to
-```
+```python
 class Heap:
     def __init__(self):
         self.heap = [0]
@@ -675,7 +675,7 @@ So for example in this case `adjMatrix[0][0] == 0` means node 0 is not self conn
 ### Adjacency List
 We create a separate `GraphNode` class to store all its neighbors in a list
 
-```
+```python
 # GraphNode used for adjacency list
 class GraphNode:
     def __init__(self, val):
@@ -752,7 +752,7 @@ A list of lists would contain edges, denoting the source node to destination nod
 Then the adjacency list could just be a dictionary, where the keys are the nodes, and the values are lists of the neighbors of each node.
 
 Example code:
-```
+```python
 edges = [["A", "B"], ["B", "C"], ["B", "E"], ["C", "E"], ["E", "D"]]
 
 adjacency_list = {}
@@ -776,7 +776,7 @@ The base case we check is whether a node has been visited, and whether target ha
 
 After all the neighbors have had dfs called on it, we remove the current node from the visited set.
 
-```
+```python
 def df(node, target, adjList, visited):
     if node == target:
         return 1
@@ -810,7 +810,7 @@ Once at a layer, if the target is discovered, then we know this is the first occ
 
 If target is not found, then we go through neighbors to add to the queue. But only do so if the neighbor is not yet visited. If not visited, we add to the visited set and then add to the queue.
 
-```
+```python
 from collections import deque
 def bfs(node, target, adjList):
     length = 0
@@ -861,7 +861,7 @@ It's called 1D because each subproblem can be cached in a 1D data structure that
 We can use the Fibonacci Sequence as an example
 
 ### Brute Force Recursion
-```
+```python
 def fib(n):
     if n <= 1:
         return n
@@ -883,7 +883,7 @@ For example `fib(4)` involves `fib(3)` and `fib(2)`. But `fib(3)` will also need
 
 It essentially let us shave off half of the binary tree, and instead will only need to do a chain of calculation that reaches the depth of the tree so the time complexity will be $O(n)$
 
-```
+```python
 def fib(n, cache):
     if n <= 1:
         return n
@@ -903,7 +903,7 @@ $O(n)$ because we now have a `cache` that can also take up $O(n)$ in order to st
 ### Bottom up dynamic programming
 We can also start from the base cases of `0` and `1`. And we can store the subproblem in a 1D array one by one as we iterate up to `n`
 
-```
+```python
 def fib(n):
     if n <= 1:
         return n
@@ -924,7 +924,7 @@ $O(n)$ because we are storing a `cache` size of `n`
 
 We can even further optimize this solution in terms of space complexity, because once we have processed an index, anything earlier than more than 2 indices are not needed anymore.
 
-```
+```python
 def fib(n):
     if n <= 1:
         return n
