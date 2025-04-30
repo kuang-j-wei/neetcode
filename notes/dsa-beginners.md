@@ -938,3 +938,68 @@ def fib(n):
 
     return cache[-1]
 ```
+
+## 2-Dimension DP
+Consider a problem where the subproblem depends on two variables.
+
+Count the unique number of paths from top left to bottom right of a matrix. Can only move right or down.
+
+### Brute Force Approach
+```python
+def find_path(r, c, rows, cols):
+  if r == rows - 1 and c == cols - 1:
+    return 1
+  if r >= rows or c >= cols:
+    return 0
+  
+
+  return find_path(r + 1, c, rows, cols) + find_path(r, c + 1, rows, cols)
+```
+If out of bounds then this is not a valid path, so return 0.
+
+If the right corner is reached, we've established a path, thus return 1.
+
+Otherwise, we are in the middle of the path exploration, so we call `find_path` from the next position `r + 1` or `c + 1` to see what paths that position can find. 
+
+Then we will build a recursive stack that's at most at the maximum height of $O(rows + cols)$, because the stack can only grow from 0 to the right hand corner, and it can at most be (row - 1) + (cols - 1) steps to get there, so the stack height can only at most be (row + cols - 2) before either `0` or `1` gets returned.
+
+**Time Complexity:**
+$O(2^{n+m})$ because at each element we can take 2 possible steps (right or down). So it's a split of two branches
+
+This tree can at most grow to the depth of $rows + cols$. So it's 2 raised to the power of $rows + cols$
+
+**Space Complexity**
+$O(n+m)$ because that's the maximum height of the tree, which is the longest path from the origin to corner right.
+
+### Dynamic Programming Approach - Top Down
+At each of the brute force step, we split into two branches in the down and right directions. So aside from the nodes at the outer edges, we will end up visiting the same node twice.
+
+This is a computational inefficiency that we can optimize out for.
+
+We can use memoization to cache the path count of a element when it's first encountered. Then the next time this node is encountered, we can just retrieve the path count from the cache.
+
+```python
+def find_path(r, c, rows, cols, cache):
+  if r == rows - 1 and c == cols - 1:
+    return 1
+  
+  if r >= rows or c >= cols:
+    return 0
+  
+  if cache[r][c] > 0:  # this mean it's not an empty cache
+    return cache[r][c]  # return the existing cached value
+  
+  # no existing cache, calculate the path count and cache the result
+  cache[r][c] = find_path(r + 1, c, rows, cols, cache) + find_path(r, c + 1, rows, cols, cache)
+  return cache[r][c]
+
+cache = [[0] * cols for _ in range(rows)]
+
+find_path(0, 0 , rows, cols, cache)
+```
+
+**Time Complexity:**
+$O(n + m)$ because we end up only visiting every node once (the second visit time it's an O(1) retrieval operation)
+
+**Space Complexity:**
+$O(n + m)$ because we have to produce a cache that's the same size as the original 2D array
