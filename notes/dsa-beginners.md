@@ -1003,3 +1003,34 @@ $O(n + m)$ because we end up only visiting every node once (the second visit tim
 
 **Space Complexity:**
 $O(n + m)$ because we have to produce a cache that's the same size as the original 2D array
+
+### Dynamic Programming Approach - Bottom Up
+We can also just start from the lower right. So instead of propagating down to lower right to first get a returned value and then caching it, then recursively bubble back up to the origin, we can start from the lower right and count path back up without storing all the results from all elements along the way.
+
+We will go row by row, and in each row, we will go from right to left. This is so that, in the next (left) element that we iterate to, it will have the elements to its right and below to be able to add together to get the current element's path value.
+
+So the total space complexity is reduced from $O(n + m)$ to just $O(2 \cdot m)$ because we only need to keep the previous row, and the current row, each of which has the number of elements equal to the number of columns, which is $m$
+
+And note that for every single row, the last element is always 1. Because from that position the only way to get to the lower right corner is by continuously going down, so there is only one path.
+
+```python
+def find_path(rows, cols):
+  prevRow = [0] * cols
+
+  for i in range(rows - 1, -1, -1):
+    currRow = [0] * c
+    currRow[-1] = 1
+    for j in range(cols - 2, -1, -1):
+      currRow[j] = prevRow[j] + currRow[j + 1]
+    
+    prevRow = currRow
+  return currRow[0]
+```
+
+**Time Complexity:**
+$O(n + m)$ because we still have to go through the entire array.
+
+**Space Complexity:**
+$O(m)$ we are now reduced to only keeping track of two arrays of the size of the number of columns.
+
+Note that this is distinct from the 1D Dynamic Programming problems where the space complexity is $O(1)$. By increasing a dimension we now have to tack on additional space complexity as well.
