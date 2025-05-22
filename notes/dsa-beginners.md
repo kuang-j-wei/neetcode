@@ -465,7 +465,7 @@ def leafPath(root, path):
         return True
 
     path.pop()  # if we get to this step, that means all of the above three cases failed, so this is not a valid path, we must remove it
-    return 
+    return
 
 ```
 *
@@ -782,7 +782,7 @@ def df(node, target, adjList, visited):
         return 1
     if node in visited:
         return 0
-    
+
     count = 0
     visited.add(node)
 
@@ -825,7 +825,7 @@ def bfs(node, target, adjList):
             curr = queue.popleft()
             if curr == target:  ## target has been reached, the first time this happens this must be the first time a layer contains the target, thus is the shortest path
                 return length
-            
+
             for neighbor in adjList[node]:
                 if neighbor not in visited:
                     visited.add(neighbor)
@@ -865,8 +865,8 @@ We can use the Fibonacci Sequence as an example
 def fib(n):
     if n <= 1:
         return n
-      
-    
+
+
     return fib(n - 2) + fib(n - 1)
 ```
 
@@ -889,7 +889,7 @@ def fib(n, cache):
         return n
     if n in cache:
         return cache[n]
-    
+
     cache[n] = fib(n - 2, cache) + fib(n - 1, cache)
     return cache[n]
 ```
@@ -951,7 +951,7 @@ def find_path(r, c, rows, cols):
     return 1
   if r >= rows or c >= cols:
     return 0
-  
+
 
   return find_path(r + 1, c, rows, cols) + find_path(r, c + 1, rows, cols)
 ```
@@ -959,7 +959,7 @@ If out of bounds then this is not a valid path, so return 0.
 
 If the right corner is reached, we've established a path, thus return 1.
 
-Otherwise, we are in the middle of the path exploration, so we call `find_path` from the next position `r + 1` or `c + 1` to see what paths that position can find. 
+Otherwise, we are in the middle of the path exploration, so we call `find_path` from the next position `r + 1` or `c + 1` to see what paths that position can find.
 
 Then we will build a recursive stack that's at most at the maximum height of $O(rows + cols)$, because the stack can only grow from 0 to the right hand corner, and it can at most be (row - 1) + (cols - 1) steps to get there, so the stack height can only at most be (row + cols - 2) before either `0` or `1` gets returned.
 
@@ -982,13 +982,13 @@ We can use memoization to cache the path count of a element when it's first enco
 def find_path(r, c, rows, cols, cache):
   if r == rows - 1 and c == cols - 1:
     return 1
-  
+
   if r >= rows or c >= cols:
     return 0
-  
+
   if cache[r][c] > 0:  # this mean it's not an empty cache
     return cache[r][c]  # return the existing cached value
-  
+
   # no existing cache, calculate the path count and cache the result
   cache[r][c] = find_path(r + 1, c, rows, cols, cache) + find_path(r, c + 1, rows, cols, cache)
   return cache[r][c]
@@ -1022,7 +1022,7 @@ def find_path(rows, cols):
     currRow[-1] = 1
     for j in range(cols - 2, -1, -1):
       currRow[j] = prevRow[j] + currRow[j + 1]
-    
+
     prevRow = currRow
   return currRow[0]
 ```
