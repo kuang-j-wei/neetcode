@@ -1042,3 +1042,50 @@ Note that this is distinct from the 1D Dynamic Programming problems where the sp
 3. `XOR`, `^` - only when only one of them is `1`
 4. Negation, `~` - flip the truth value
 5. Shifting bits, `>>` or `<<`, move the "on" bit to the left or right position
+
+## Bit Shifting
+The notation is
+```python
+n = n << 1
+n = n >> 1
+```
+
+For a base 2 number the representation in 32-bit is:
+```pgsql
+Bit Position (7 to 0):   0 0 1 1 1 0 0 1
+                         ↑ ↑ ↑     ↑   ↑
+Power of 2:              2⁵ 2⁴ 2³     2⁰
+Value:                   32 + 16 + 8 + 1 = 57
+```
+Since
+```
+001 = 1
+010 = 2
+100 = 4
+```
+When we **bit shift to the left, we multiply the integer by 2**.
+
+And shifting to the right is divide by 2. And if the number is odd, we round down.
+
+## Bit Counting
+```python
+def bitcounting(n):
+  """
+  Given an integer, count how many of its bit representation
+  is 1
+
+  we always just count whether the right most bit is turned on or not.
+  we do so by running an `&` operation on the number, which would only be 1
+  if the right most bit is also 1. If that's the case then we increment the
+  count by 1
+
+  We then bit shift to the right, until the number becomes 0
+  """
+  count = 0
+
+  while n > 0:
+    if n & 1 == 1:
+      count += 1
+    n = n >> 1
+  return count
+```
