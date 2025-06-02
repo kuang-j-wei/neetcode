@@ -1034,3 +1034,11 @@ $O(n + m)$ because we still have to go through the entire array.
 $O(m)$ we are now reduced to only keeping track of two arrays of the size of the number of columns.
 
 Note that this is distinct from the 1D Dynamic Programming problems where the space complexity is $O(1)$. By increasing a dimension we now have to tack on additional space complexity as well.
+
+# Bit Manipulation
+## Truth Tables and Bit Operations
+1. `AND`, `&` - both have to be `1`
+2. `OR`, `|` - as long as at least one is `1`
+3. `XOR`, `^` - only when only one of them is `1`
+4. Negation, `~` - flip the truth value
+5. Shifting bits, `>>` or `<<`, move the "on" bit to the left or right position
