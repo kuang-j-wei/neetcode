@@ -116,6 +116,7 @@ class SolutionBruteForce:
             loop multiply all possible combinations
 
         """
+        answer = [0] * len(nums)
 
         for i in range(len(nums)):
             ans = 1
