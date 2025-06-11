@@ -1,3 +1,58 @@
+from typing import List
+
+class SolutionOptimal:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        """
+        Solution:
+            Let prefix[i] be all the nums multiplied together up to
+            right before this i-th position
+
+            And if there's no num in front, initialize ias 1
+
+            Let suffix[j] be all the nums multiplied starting from the
+            back together up to right after this index
+
+            Then ans[i] will just be prefix[i] * suffix[i]
+
+            We can first store prefix in the ans array itself
+
+            Then we store a suffix variable, which starts from 1 and
+            then we gradually multiply up by each num that we are
+            iterating on
+
+            Then when we do a second backward pass, we just multiply
+            ans[j] with this current running suffix
+
+
+            nums   = [1, 2, 3, 4]
+
+            prefix = [1] + [1, 2, 6]
+            suffix = [24, 12, 4] + [1]
+        
+        Time Complexity: O(n)
+            Because we linearly run two loops each of length len(nums)
+
+        Space Complexity: O(1)
+            Technically O(n) because the output array will be the same
+            length as the input nums array, but there's no additional
+            space needed so O(1)
+
+        """
+        length = len(nums)
+
+        answer = [1] * length
+
+        for i in range(1, length):
+            answer[i] = nums[i - 1] * answer[i - 1]
+
+        suffix = 1
+        for j in range(length - 2, -1, -1):
+            suffix *= nums[j + 1]
+            answer[j] = answer[j] * suffix
+
+        return answer
+
+
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         """
