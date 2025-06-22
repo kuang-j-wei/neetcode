@@ -5,10 +5,17 @@ class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
         """
         Solution:
-            Only when an operator is encountered, would we need two
-            numbers to operate on.
+            For the reverse Polish notation, because the operators
+            are after numbers, we iterate until we see an operator. Then
+            once we encounter an operator, we know need to look
+            backwards of the two most recent numbers seen.
 
-            So we use a stack to save the numbers, because... TBC
+            So this is a Last In First Out processing order, which is
+            suitable for a stack.
+
+            And once the new number is calculated based on that
+            operator, it becomes the latest number that could be
+            operated on, so we put it into the stack.
 
         Time Complexity: O(n)
             We only loop through tokens once
