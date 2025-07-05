@@ -1,4 +1,4 @@
-from typping import List
+from typing import List
 
 
 class Solution:
@@ -8,7 +8,7 @@ class Solution:
             The next greater number would only not exist
             if a number is truly the maximum
 
-            This would only happen if you've succesfully
+            This would only happen if you've successfully
             looped once and didn't find any larger number
 
             So we can just double the size of nums and
@@ -16,7 +16,7 @@ class Solution:
             number
 
         Time Complexity: O(n)
-            We sitll only loop through nums once at double
+            We still only loop through nums once at double
             its size
 
         Space Complexity: O(n)
