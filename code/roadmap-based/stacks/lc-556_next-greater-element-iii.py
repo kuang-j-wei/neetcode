@@ -57,13 +57,14 @@ class Solution:
                 # number in the stack that's larger than this current
                 # And since the stack is already ensured to be in an
                 # ascending order, we know that we can then just insert
-                # digit at this point and it's 
+                # digit at this point and the stack will be in ascending
+                # order, thus we can now then just append the stack to
+                # digits and be done with the full solution 
                 digits = digits[:i]
                 for j in range(len(stack)):
                     if stack[j] > digit:
                         digits.append(stack[j])
                         stack = stack[:j] + [digit] + stack[j+1:]
-                        stack.sort()
                         digits.extend(stack)
                         ans = int("".join(digits))
                         return ans if ans <= (2 ** 31 - 1) else -1
