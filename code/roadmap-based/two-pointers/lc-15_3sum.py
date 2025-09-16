@@ -6,6 +6,16 @@ class Solution:
         """
         First sort, then we have sub-problems of sorted Two Sum
 
+        We loop through the numbers, then at each iteration, we search
+        through the list to the right as a 2sum sub-problem
+
+        Note that, to avoid duplicates, once a valid triplet is found,
+        we should avoid numbers that have already been used. Since this
+        is a sorted array, we can now advance the left pointer until
+        the adjacent numbers are different. And we do the same for the
+        right pointer, decrement it until the numbers are different
+        
+
         Time Complexity: O(n^2)
             The full time complexity is O(nlog(n)) + O(n * n) = O(n^2)
 
@@ -30,15 +40,18 @@ class Solution:
                     answer.append([n1, nums[left], nums[right]])
                     left += 1
                     right -= 1
-                    ### TODO: Understand Block STARTS
                     # Skip duplicates for left pointer
+                    # since we already advanced one, check if the
+                    # previous left pointer is pointing at the same
+                    # number
                     while left < right and nums[left] == nums[left - 1]:
                         left += 1
 
                     # Skip duplicates for right pointer
+                    # since we already decrement right by one, check
+                    # if one position to the right is the same number
                     while left < right and nums[right] == nums[right + 1]:
                         right -= 1
-                    ### TODO: Understand Block ENDS
                 elif curr_sum < complement:
                     left += 1
                 else:
