@@ -12,8 +12,12 @@ class Solution:
         Note that, to avoid duplicates, once a valid triplet is found,
         we should avoid numbers that have already been used. Since this
         is a sorted array, we can now advance the left pointer until
-        the adjacent numbers are different. And we do the same for the
-        right pointer, decrement it until the numbers are different
+        the adjacent numbers are different. For the right pointer, we
+        don't have to do this explicit check. Because once the left has
+        already advanced to the next bigger number, we know that we
+        must reduce the current sum. So if the right also has
+        duplicates, the while loop would decrement it until the curr_sum
+        is reduced
         
 
         Time Complexity: O(n^2)
@@ -23,21 +27,21 @@ class Solution:
             No additional memory is used aside from the output answer
         """
         nums.sort()
-        length = len(nums)
         answer = []
 
-        for idx1, n1 in enumerate(nums):
-            if idx1 - 1 >= 0 and n1 == nums[idx1 - 1]:
+        for idx, n in enumerate(nums):
+            # check if the previous number is the same (and also safe-
+            # guard that there is a number to the left), if so skip
+            if idx > 0 and n == nums[idx - 1]:
                 continue
-            complement = -n1
+            complement = -n
 
-            left = idx1 + 1
-            right = length - 1
+            left, right = idx + 1, len(nums) - 1
 
             while left < right:
                 curr_sum = nums[left] + nums[right]
                 if curr_sum == complement:
-                    answer.append([n1, nums[left], nums[right]])
+                    answer.append([n, nums[left], nums[right]])
                     left += 1
                     right -= 1
                     # Skip duplicates for left pointer
@@ -46,17 +50,17 @@ class Solution:
                     # number
                     while left < right and nums[left] == nums[left - 1]:
                         left += 1
-
-                    # Skip duplicates for right pointer
-                    # since we already decrement right by one, check
-                    # if one position to the right is the same number
-                    while left < right and nums[right] == nums[right + 1]:
-                        right -= 1
+                    # we don't have to check the right for duplicate,
+                    # because if we've already advanced the left pointer
+                    # the curr sum is now bigger. Then we must drop the
+                    # right pointer. But if right pointer is duplicate
+                    # the else: right -= 1 would take care of itself
+                    
                 elif curr_sum < complement:
                     left += 1
                 else:
                     right -= 1
-
+        
         return answer
 
 
