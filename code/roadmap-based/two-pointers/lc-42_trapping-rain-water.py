@@ -4,9 +4,12 @@ from typing import List
 class Solution:
     def trap(self, height: List[int]) -> int:
         """
-        Need to find a method to take care of,
-        spilled out, but there are sub-problems we can
-        solve
+        Time: O(n)
+            We at most pass the entire array twice (once forward once
+            backward)
+
+        Space: O(1)
+            No additional memory is used
         """
         if len(height) <= 2:
             return 0
