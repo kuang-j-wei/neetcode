@@ -24,8 +24,6 @@ class Solution:
                 i = j
                 j += 1
                 current_water = 0
-            else:  # left shorter, spill out
-                current_water = 0
 
         # end has been reached, we then work backwards to the highest
         # point, which is i
