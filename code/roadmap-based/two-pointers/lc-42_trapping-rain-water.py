@@ -27,5 +27,20 @@ class Solution:
             else:  # left shorter, spill out
                 current_water = 0
 
+        # end has been reached, we then work backwards to the highest
+        # point, which is i
+        right = len(height) - 1
+        left = right - 1
+        current_water = 0
+
+        while left >= i:
+            if height[left] >= height[right]: # spill or collect
+                water_sum += current_water
+                current_water = 0
+                right = left
+                left = right - 1
+            elif height[left] < height[right]: # right taller, add to current
+                current_water += height[right] - height[left]
+                left -= 1
 
         return water_sum
