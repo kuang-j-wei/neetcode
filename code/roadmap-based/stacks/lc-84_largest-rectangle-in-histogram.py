@@ -3,6 +3,14 @@ from typing import List
 
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
+        """
+        Keep a stack of indices, and only stop to calculate area if we
+        encounter a bar that's shorter than the current top of the
+        stack. Once such bar is encountered, we then count backwards
+        in the stack until the current top of the stack is shorter than
+        the right limiting wall, we then successfully calculated a
+        rectangle.
+        """
         n = len(heights)
         max_area = 0
         minimums = [[]]
