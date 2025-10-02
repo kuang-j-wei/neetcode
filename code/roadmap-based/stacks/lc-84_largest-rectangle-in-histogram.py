@@ -4,22 +4,28 @@ from typing import List
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         """
-        Keep a stack of indices, and only stop to calculate area if we
-        encounter a bar that's shorter than the current top of the
-        stack. Once such bar is encountered, we then count backwards
-        in the stack until the current top of the stack is shorter than
-        the right limiting wall, we then successfully calculated a
-        rectangle.
+        We iterate forward, and keep adding bars to a stack, until we
+        see a bar that's shorter than the most recent bar, which would
+        be the top of the stack.
+
+        Then we know that we have to count backwards, 
+        We will keep a stack of indices, where each index essentially
+        stores 'the index of the left wall'
         """
-        n = len(heights)
         max_area = 0
-        minimums = [[]]
-        for i in range(n):
-            for j in range(i + 1, n + 1):
-                width = j - i
-                if width == 1:
-                    height = heights[i]
-                else:
-                    height = min(height, heights[j - 1])
-                max_area = max(max_area, width * height)
+        stack = []
+
+        for i, curr_height in enumerate(heights):
+            start = i
+            while stack and curr_height < heights[stack[-1]]:  # can't extend to the right anymore, look back to the left
+                lookback_index = stack.pop()
+                limiting_height = heights[lookback_index]
+                width = i - lookback_index
+                max_area = max(max_area, width * limiting_height)
+                start = i
+            stack.append(start)
+
+        for index in stack:
+            max_area = max(max_area, heights[index] * (len(heights) - index))
+            
         return max_area
