@@ -69,7 +69,7 @@ class Solution:
             if nums[mid] == target:
                 return mid
             
-            if nums[mid] >= nums[l]:  # we are in left portion
+            if nums[mid] >= nums[0]:  # we are in left portion
                 if nums[mid] < target or target < nums[l]:  # need to look for larger number, so just need to look to the right
                     l = mid + 1
                 else:
@@ -94,7 +94,7 @@ class SolutionVerbose:
                 print(f"Target found at nums[{mid}]")
                 return mid
             
-            if nums[mid] > nums[l]:  # we are in left portion
+            if nums[mid] > nums[0]:  # we are in left portion
                 print(f"nums[{mid}] = {nums[mid]} >= nums[{l}] = {nums[l]} is in the left portion.")
                 if nums[mid] < target:  # need to look for larger number, so just need to look to the right
                     print(f"Need to find a bigger number, so just stay in the left portion but update l = mid + 1 -> l = {mid} + 1 = {mid + 1}")
