@@ -84,28 +84,39 @@ class Solution:
 
 class SolutionVerbose:
     def search(self, nums: List[int], target: int) -> int:
+        print(f"Searching {target} in {nums}")
         l, r = 0, len(nums) - 1
 
         while l <= r:  # need to narrow down to just one element, which is when left overlaps with right, and mid will also be the same point, and we check for target
             mid = (l + r) // 2
+            print(f"Current mid point is nums[{mid}] = {nums[mid]}")
             if nums[mid] == target:
+                print(f"Target found at nums[{mid}]")
                 return mid
             
-            if nums[mid] >= nums[l]:  # we are in left portion
+            if nums[mid] > nums[l]:  # we are in left portion
+                print(f"nums[{mid}] = {nums[mid]} >= nums[{l}] = {nums[l]} is in the left portion.")
                 if nums[mid] < target:  # need to look for larger number, so just need to look to the right
+                    print(f"Need to find a bigger number, so just stay in the left portion but update l = mid + 1 -> l = {mid} + 1 = {mid + 1}")
                     l = mid + 1
                 else:  # need to look for smaller number, so either look to the left or to the right portion
-                    if target > nums[l]:  # just need to keep looking to the left
+                    if target >= nums[l]:  # just need to keep looking to the left
+                        print(f"Need to find a smaller number, but target bigger than nums[{l}] = {nums[l]}, so keep searching in the left portion, so update r to nums[{mid - 1}] = {nums[mid - 1]}")
                         r = mid - 1
                     else:  # need to look for the right most portion
-                         l = mid + 1
+                        print(f"Need to find a smaller number, but target smaller than nums[{l}] = {nums[l]}, so searching in the right portion, so update l to mid[{mid + 1}] = {nums[mid + 1]}")
+                        l = mid + 1
             else:  # in right section
+                print(f"nums[{mid}] = {nums[mid]} < nums[{l}] = {nums[l]} is in the right portion.")
                 if nums[mid] > target:  # need to find smaller value, so look to the left
+                    print(f"Need to find a smaller number, so forget anything to the right, updating r = {mid} - 1 = {mid - 1}")
                     r = mid - 1
                 else:  # need to find larger value, so look to the right or look for the left most section
-                    if nums[r] > target:
+                    if nums[r] >= target:
+                        print(f"Need to find a bigger number, and target is smaller than the right most value nums[{r}] = {nums[r]}, so stay searching the right portion, updating l to mid[{mid + 1}] = {nums[mid + 1]}")
                         l = mid + 1  # it's just this right section
                     else:  # need to look into the left section
+                        print(f"Need to find a bigger number, but target is even bigger than the right most value nums[{r}] = {nums[r]}, so need to search the left portion, updating r to mid[{mid - 1}] = {nums[mid - 1]}")
                         r = mid - 1
         return -1
 
@@ -179,7 +190,6 @@ class SolutionSlow:
         
 
 if __name__ == '__main__':
-    s = Solution()
     # nums = [3, 4, 5, 6, 1, 2]
     # nums = [3, 5, 6, 0, 1, 2]
     # nums = [1, 3]
@@ -187,4 +197,5 @@ if __name__ == '__main__':
     # target = 4
     target = 0
 
+    s = SolutionVerbose()
     s.search(nums, target)
