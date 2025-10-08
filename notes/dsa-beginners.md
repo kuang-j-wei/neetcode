@@ -228,6 +228,12 @@ Since from the top each node splits into 2, we need to do 2 * 2 * 2 * ... operat
   * The ordering is entirely irrelevant
 
 # Binary Search
+## Practical Implementation
+```python
+l, r = 0, len(array) - 1
+while l <= r:
+    mid = (l + r) // 2
+```
 ## Search Array
 * Works if an array is already sorted
 * We would calculate the mid point, and see if the target value is greater or smaller, we then search either the right or left
