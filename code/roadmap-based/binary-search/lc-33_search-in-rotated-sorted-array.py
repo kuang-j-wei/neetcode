@@ -4,40 +4,63 @@ from typing import List
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         """
-        We will perform a binary search to achieve O(log(n)) time, and
-        the key here again is to know which half to preserve.
+        In binary search, we want to know which half to drop. This is
+        straight forward in a standard sorted array, we just check if
+        the target is bigger or smaller than the mid point, then
+        continue until the left and right pointers land on the same
+        spot.
 
-        The key insight here is that, if we conceptualize the array as
-        elements to the left of the inflection point as the "left
-        portion" and to the right (inclusive of inflection) as the
-        right, then we can use this to determine which  half to keep.
+        But in this case, we can't guarantee that all elements left of
+        the mid point is actually smaller, because if we encounter an
+        inflection point, then there will be bigger values even to the
+        left of the mid point.
 
-        Now if we are in the left half, and the target is smaller than
-        the midpoint, then we know to binary search left to midpoint.
+        But a key observation here is that, within the left or right
+        portion of the rotated array, the array is a strictly increasing
+        sorted array. We can use this to our advantage.
 
-        If we are in the left half, and the target is larger than
-        the mid point, we will search from the midpoint forward to the
-        inflection point. But we don't know where the inflection point
-        is, so we will just search from the midpoint + 1 to the end.
+        Let's call all the numbers to the left of the inflection point
+        the left portion and all points to the right the right portion.
+        One key observation here is that the left most number in the
+        left portion is still larger than all numbers in the right
+        portion. And the right most value in the right portion is still
+        smaller than all values in the left portion.
 
-        If we are in the right half, and the target is larger than the
-        mid point, then we search from midpoint to the end of the array.
+        If we the mid point is in the left array, and we know that the
+        target is bigger than the current mid point, we are guaranteed
+        to only need to look to the right of the mid point. But if the
+        target is smaller, we either have to look from the current left
+        to mid, or we might actually have to look to the "right portion"
+        of the array, since the target might be so small that it's
+        actually in the right portion. But this is also exactly the key
+        insight - by comparing the left most value in the left array
+        against target, if target is greater than this left most value,
+        then we know we just have to search from left to mid - 1.
+        Otherwise, we know that the target could only be in the "right
+        portion", so then we would update the left pointer to mid + 1.
 
-        If we are in the right half and the target is less than the mid
-        point, then we search from inflection point to the mid point.
-        But again we don't know the inflection point, so we will just
-        search from left pointer to midpoint - 1.
-
-        Now to determine whether we are in the left portion or the right
-        portion - We know that in the left portion, its left most
-        element is smaller than all elements in the left portion. But
-        the left most element is bigger than all elements of the right
-        portion. So if the mid pointer is larger than the left pointer,
-        then we know we are in the left portion. If it's smaller than
-        the left pointer, then we know we are in the right portion.
-
-        And to determine portion the only important thing is that we
-        have to make sure we are in an ascending order.
+        Similar logic applies if the mid point is in the "right
+        portion". If target is smaller, then we know we just need to
+        search within everything lower than mid point, so update r to
+        mid - 1. But if target is bigger, then it's either in the "right
+        portion" or it's in the "left portion" altogether. To know this,
+        we just compare the right most value to the target. If the right
+        most is still bigger than the target, then we just need to
+        search in this "right portion". But if it's smaller, then we
+        know the target could only be in the "left portion" since all
+        numbers in the "left portion" is bigger than even the last
+        number int he "right portion". So then we update the right
+        pointer to mid - 1 since we just need to search the left portion
+        of the array.
+        
+        
+        Time Complexity: O(log(n))
+            We are doing a binary search, so at most we can just need
+            to do log(n) operations before finding or ruling out the
+            existence of target
+        
+        Space Complexity: O(1)
+            No additional space is used
         """
         l, r = 0, len(nums) - 1
 
@@ -61,42 +84,6 @@ class Solution:
 
 class SolutionVerbose:
     def search(self, nums: List[int], target: int) -> int:
-        """
-        We will perform a binary search to achieve O(log(n)) time, and
-        the key here again is to know which half to preserve.
-
-        The key insight here is that, if we conceptualize the array as
-        elements to the left of the inflection point as the "left
-        portion" and to the right (inclusive of inflection) as the
-        right, then we can use this to determine which  half to keep.
-
-        Now if we are in the left half, and the target is smaller than
-        the midpoint, then we know to binary search left to midpoint.
-
-        If we are in the left half, and the target is larger than
-        the mid point, we will search from the midpoint forward to the
-        inflection point. But we don't know where the inflection point
-        is, so we will just search from the midpoint + 1 to the end.
-
-        If we are in the right half, and the target is larger than the
-        mid point, then we search from midpoint to the end of the array.
-
-        If we are in the right half and the target is less than the mid
-        point, then we search from inflection point to the mid point.
-        But again we don't know the inflection point, so we will just
-        search from left pointer to midpoint - 1.
-
-        Now to determine whether we are in the left portion or the right
-        portion - We know that in the left portion, its left most
-        element is smaller than all elements in the left portion. But
-        the left most element is bigger than all elements of the right
-        portion. So if the mid pointer is larger than the left pointer,
-        then we know we are in the left portion. If it's smaller than
-        the left pointer, then we know we are in the right portion.
-
-        And to determine portion the only important thing is that we
-        have to make sure we are in an ascending order.
-        """
         l, r = 0, len(nums) - 1
 
         while l <= r:  # need to narrow down to just one element, which is when left overlaps with right, and mid will also be the same point, and we check for target
@@ -195,7 +182,8 @@ if __name__ == '__main__':
     s = Solution()
     # nums = [3, 4, 5, 6, 1, 2]
     # nums = [3, 5, 6, 0, 1, 2]
-    nums = [1, 3]
+    # nums = [1, 3]
+    nums = [4,5,6,7,0,1,2]
     # target = 4
     target = 0
 
