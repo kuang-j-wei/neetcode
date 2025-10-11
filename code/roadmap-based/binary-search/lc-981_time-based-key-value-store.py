@@ -15,17 +15,14 @@ class TimeMap:
         left and right pointers converge onto a single point, then we
         will exit out of the while loop. 
 
-        At this point there are three outcomes. First, if the converged
-        point is already a time less than the target timestamp, then
-        we can just return this value. If not then, we check the value
-        before it. If this time is smaller, then we can also return it.
-        But if it's bigger, then we know that there is no timestamp that
-        is less than the target time stamp. Because as we are doing
-        binary search, we are guaranteed to have reached the element
-        that is the closest to the target time. So if even the previous
-        time, which is guaranteed to be smaller is still not actually
-        smaller, then we know for sure that there's not a value that's
-        smaller that exists in this timestamp array.
+        After we exit the while loop, if that previously converged
+        mid point is larger than the target, then we would move the r
+        pointer to mid - 1, which means it's become the largest
+        timestamp that's less than the target. And that's precisely what
+        we want according to the problem statement. And if r - 1 is less
+        than 0, then we know that we've gone out of bound and it means
+        that there doesn't exist a "previous time stamp" that's smaller
+        than the target, so we return ""
 
         Time Complexity: O(log(n))
             We do binary search so `get` will be O(log(n)). And in `set`
@@ -56,14 +53,10 @@ class TimeMap:
             else:
                 l = mid + 1
 
-        if sorted_list[mid][0] < timestamp:
-            return sorted_list[mid][1] 
-        elif sorted_list[mid - 1][0] < timestamp:
-            return sorted_list[mid - 1][1]
-        else:
-            return ""
-
-# Your TimeMap object will be instantiated and called as such:
-# obj = TimeMap()
-# obj.set(key,value,timestamp)
-# param_2 = obj.get(key,timestamp)
+        # if sorted_list[mid][0] < timestamp:
+            # return sorted_list[mid][1] 
+        # elif sorted_list[mid - 1][0] < timestamp:
+            # return sorted_list[mid - 1][1]
+        # else:
+            # return ""
+        return sorted_list[r][1] if r >= 0 else ""
