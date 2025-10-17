@@ -39,49 +39,27 @@ class Solution:
         while True:
             # binary search the smaller array
             mid = (l + r) // 2   # len(3), mid point index 1; 2 elements; len(5), len(5); need 4; 2 on small array, need 2 more; 4 - 1 = 3
-            left1 = A[:mid]
-            right1 = A[mid:]
 
-            left2 = B[:half_amount - mid + 1]
-            right2 = B[half_amount - mid + 1:]
+            Amax = A[mid] if mid >= 0 else float("-inf")
+            Amin = A[mid + 1] if mid + 1 <= len(A) - 1 else float("inf")
+
+            # we already occupied mid + 1 elements. So the other array's left half should be half_amount - mid - 1, then
+            Bmax = B[half_amount - mid - 2] if half_amount - mid - 2 >= 0 else float("-inf")
+            Bmin = B[half_amount - mid - 1] if half_amount - mid - 1 <= len(B) - 1 else float("inf")
 
             # check if left portion of small array's max value is smaller
             # than the min value of the right portion of the big array
-            if left1[-1] <= right2[0] and left2[-1] <= right1[0]:
+            if Amax <= Bmin and Bmax <= Amin:
                 if total_amount % 2 == 0:  # even
-                    return (max(left1[-1], left2[-1]) + min(right1[0], right2[0])) / 2
+                    return (max(Amax, Bmax) + min(Amin, Bmin)) / 2
                 else:
-                    return min(right1[0], right2[0])
+                    return min(Amin, Bmin)
 
-            if left1[-1] > right2[0]:
+            if Amax > Bmin:
                 r = mid - 1
-            if left2[-1] > right1[0]:  # need to reduce B array, so take more in array 1
+            if Bmax > Amax:  # need to reduce B array, so take more in array 1
                 l = mid + 1
 
-
-        # if (m + n) / 2 is int:
-        #     # need two elements
-        #     mid_m = m // 2
-        #     mid_n = n // 2
-
-        #     left_1 = nums1[:mid_m]
-        #     right_1 = nums1[mid_m:]
-
-        #     left_2 = nums2[:mid_n]
-        #     right_2 = nums2[mid_n:]
-
-        #     left_elements = (m + n) / 2 if (m + n) / 2 is int else (m + n + 1) / 2
-
-        #     if len(left_1) + len(left_2) == left_elements:
-        #         if max(left_1) <= min(right_2) and max(right_1) <= min(left_1):
-        #             return (nums1[mid_m] + nums2[mid_n]) / 2
-
-        #     # if at the border move to only one array
-
-
-        # else:
-        #     # only need one element
-        #     return None
 
 if __name__ == '__main__':
     s = Solution()
