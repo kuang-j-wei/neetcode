@@ -1095,3 +1095,170 @@ def bitcounting(n):
     n = n >> 1
   return count
 ```
+
+## Common Problem Types
+### Sliding Window Pattern Guide
+
+#### What is Sliding Window?
+
+Sliding window is an optimization technique that transforms nested loops into a single pass through the data. Instead of recalculating everything for each position, we maintain a "window" of elements and slide it across the array/string, updating incrementally.
+
+#### When to Use Sliding Window
+
+##### Problem Characteristics
+Look for these signals in the problem statement:
+
+1. **Contiguous sequence**: The problem asks about subarrays, substrings, or consecutive elements
+2. **Optimization question**: Finding maximum/minimum length, or optimal value
+3. **Linear data structure**: Working with arrays, strings, or linked lists
+4. **Constraint or condition**: There's a condition that the window must satisfy
+
+##### Common Problem Phrases
+- "longest substring with..."
+- "maximum/minimum subarray..."
+- "contiguous elements that..."
+- "find a window/subarray where..."
+- "shortest sequence that contains..."
+
+##### Example Problems
+- Longest substring without repeating characters
+- Maximum sum subarray of size k
+- Minimum window substring
+- Longest repeating character replacement
+- Fruits into baskets
+
+#### Types of Sliding Window
+
+##### 1. Fixed Window Size
+The window size is constant (e.g., "subarray of size k")
+
+**Pattern:**
+```python
+left = 0
+for right in range(len(array)):
+    # Add array[right] to window
+
+    if right - left + 1 == k:  # Window reached size k
+        # Calculate result for this window
+        # Remove array[left] from window
+        left += 1
+```
+
+##### 2. Dynamic Window Size (Most Common)
+The window size changes based on a condition
+
+**Pattern:**
+```python
+left = 0
+for right in range(len(array)):
+    # Add array[right] to window
+
+    while condition_violated:
+        # Shrink window from left
+        # Remove array[left] from window
+        left += 1
+
+    # Update result (window is valid here)
+```
+
+## General Recipe for Sliding Window
+
+##### Step 1: Initialize
+```python
+left = 0
+result = 0  # or float('inf') for minimum problems
+window_state = {}  # Track what's in the window (frequency map, sum, etc.)
+```
+
+##### Step 2: Expand Window (Right Pointer)
+```python
+for right in range(len(data)):
+    # Add data[right] to window_state
+    # Update any tracking variables
+```
+
+##### Step 3: Shrink Window When Invalid (Left Pointer)
+```python
+    while window_is_invalid(window_state):
+        # Remove data[left] from window_state
+        # Update tracking variables
+        left += 1
+```
+
+##### Step 4: Update Result
+```python
+    # At this point, window is valid
+    result = max(result, right - left + 1)  # For maximum length
+    # or
+    result = min(result, right - left + 1)  # For minimum length
+```
+
+#### Key Insights
+
+##### Why Only Shrink from Left?
+- **Right pointer explores**: Always moves forward to find new possibilities
+- **Left pointer maintains validity**: Only moves when window becomes invalid
+- **We want maximum length**: Shrinking from right makes window smaller, which never improves the answer
+
+##### Window Validity Condition
+Always clearly define what makes a window "valid":
+- Character frequency constraints
+- Sum constraints
+- Count of distinct elements
+- Custom business logic
+
+##### Incremental Updates
+The efficiency comes from updating incrementally:
+- **Don't recalculate** everything when the window moves
+- **Add** the new element entering the window
+- **Remove** the element leaving the window
+- **Update** only affected tracking variables
+
+#### Common Pitfalls
+
+1. **Forgetting to update tracking variables** when shrinking the window
+2. **Off-by-one errors** with window size calculation: `right - left + 1`
+3. **Not handling edge cases**: empty arrays, single elements
+4. **Updating result at wrong time**: Make sure window is valid before recording
+5. **Using wrong loop type**: `while` for shrinking, `for` for expanding
+
+#### Template Code
+
+```python
+def sliding_window(data):
+    left = 0
+    result = 0  # Initialize based on problem (0, float('inf'), etc.)
+    window_state = {}  # Dictionary, set, counter, sum, etc.
+
+    for right in range(len(data)):
+        # Expand: Add data[right] to window
+        # Update window_state with data[right]
+
+        # Shrink: While window is invalid
+        while is_invalid(window_state):
+            # Remove data[left] from window_state
+            left += 1
+
+        # Update result (window is valid here)
+        result = max(result, right - left + 1)
+
+    return result
+```
+
+#### Time Complexity
+
+- **Time**: O(n) where n is the length of input
+  - Each element is visited at most twice (once by right, once by left)
+  - Even though there's a nested while loop, left never goes backward
+- **Space**: O(k) where k is the size of the tracking data structure
+  - Often O(1) for fixed character sets (e.g., 26 letters)
+
+#### Practice Strategy
+
+1. Start with fixed-size window problems (easier)
+2. Move to dynamic window with simple conditions
+3. Progress to complex conditions with multiple constraints
+4. For each problem, explicitly write out:
+   - What makes a window valid?
+   - What state do I need to track?
+   - When do I update my result?
