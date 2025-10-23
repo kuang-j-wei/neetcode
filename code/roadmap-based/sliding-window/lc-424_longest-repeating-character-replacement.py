@@ -45,19 +45,19 @@ class Solution:
         max_len = 1
         window_size = 1
         frequency_counter[ord(s[l]) - ord('A')] += 1
+        most_frequent_count = frequency_counter[ord(s[l]) - ord('A')]
 
 
         while r + 1 < len(s):
             # expand
             r += 1
             frequency_counter[ord(s[r]) - ord('A')] += 1
-            most_frequent_count = max(frequency_counter)
+            most_frequent_count = max(most_frequent_count, frequency_counter[ord(s[r]) - ord('A')])  # only compare to the current new update instead of searching the entire O(26) array
 
             # validate, and if not, shrink until valid (widow_size = r - l + 1)
             while r - l + 1 - most_frequent_count > k and l < len(s):
-                    frequency_counter[ord(s[l]) - ord('A')] -= 1
+                    frequency_counter[ord(s[l]) - ord('A')] -= 1  # we only care about the most frequent character. This is decrementing, so can't be the most frequent
                     l += 1
-                    most_frequent_count = max(frequency_counter)
 
             # window is valid now, record max length
             max_len = max(max_len, r - l + 1)
