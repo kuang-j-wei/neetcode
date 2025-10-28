@@ -27,10 +27,14 @@ class Solution:
         Then by the time that r goes out of bound of string s, we know
         we've exhausted all windows that could be valid.
 
-        Time Complexity: O(n + m)
+        Time Complexity: O(n) + O(m * n)
             We have to iterate through t first to construct the
             character counter. We then at worst iterate over each
-            character in s twice
+            character in s twice. But at each character inside s, we
+            evaluate max(counter.values()) which would require looping
+            through all the key-val pairs to find the maximum value
+            which at worst could be an O(n) operation. And we would need
+            to repeat this operation m times
 
         Space Complexity: O(n)
             We construct a hashmap of size len(t)
