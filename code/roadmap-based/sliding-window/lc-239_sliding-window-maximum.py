@@ -1,40 +1,45 @@
 from typing import List
+from collections import deque
 
 
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         """
-        First iterate through `nums` until the size of k, and as we
-        iterate, record down the maximum number. We will do so by
-        keeping a left pointer which starts at 0 and a r pointer which
-        will eventually reach r - l + 1 = k
+        We will keep a monotonically decreasing queue as we slide
+        through nums. Then we will always be able to access the current
+        largest number in the window in O(1) time. And whenever we need
+        to add a new number, and this new number is larger than anything
+        in the queue, we will pop out the smaller number in the queue
+        then add this new number, so this queue is always in a
+        monotonically decreasing order. And if the oldest element in
+        this queue is now too far away from the current index that means
+        the window is too big, so we pop from the left to remove the
+        oldest element to decrease the window size.
 
-        Then if the current left pointer is the max, right before we
-        increment l, we compare this current l with the incremented r
-        to see which one is bigger. If l is not the max, then we just
-        compare the new r value with the current max to see which one
-        is bigger. But if l is the biggest, we would then need to find
-        the next biggest number. We could just then search through the
-        newly slid window to find the maximum.
+        Time Complexity: O(n)
+            We only visit each element in nums at most twice
+        
+        Space Complexity: O(k)
+            The queue is at most size k
         """
+        queue = deque([])
         maxes = []
 
-        l, r = 0, k
-        print(f"Finding max({nums[l:r]})")
-        maxes.append(max(nums[l:r]))
-        print(f"maxes = {maxes}")
-
-        while r < len(nums):
-            if maxes[-1] != nums[l]:
-                print(f"Appending max(nums[{r}], maxes{-1}) = max({nums[r]}, {maxes[-1]})")
-                maxes.append(max(nums[r], maxes[-1]))
-                print(f"maxes = {maxes}")
-            else:
-                print(f"Appending max({nums[l + 1:r + 1]})")
-                maxes.append(max(nums[l + 1:r + 1]))
-                print(f"maxes = {maxes}")
-            l += 1
-            r += 1
+        for idx, num in enumerate(nums):            
+            # if the current window is going to be too big, then we
+            # slide out the left most, oldest, indices in the queue
+            while queue and (idx - queue[0] + 1) > k:
+                queue.popleft()
+            
+            # for new joiner, remove 
+            while queue and num > nums[queue[-1]] :
+                queue.pop()
+            queue.append(idx)
+            
+            # window big enough now, we can record
+            if idx >= k - 1:
+                maxes.append(nums[queue[0]])
+                
         return maxes
 
 
