@@ -60,7 +60,8 @@ class SolutionFast:
         """
         slow, fast = 0, 0
         
-        while fast.next.next:
+        # need current fast to exist, and fast.next to exist since we need fast.next.next in this current loop
+        while fast and fast.next.next:  
             slow = slow.next
             fast = fast.next.next
 
