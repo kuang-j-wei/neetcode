@@ -7,6 +7,7 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         """
@@ -35,4 +36,34 @@ class Solution:
                 return True
             visited.add(curr)
             curr = curr.next
+        return False
+
+
+class SolutionFast:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        """
+        If there is a cycle, since this is a closed loop, the faster
+        moving pointer is guaranteed to eventually catch up to the
+        slower moving pointer. And if the speed of them differ by only
+        one, then it would only take them the same number of iterations
+        as the size of the cycle, because at each iteration the distance
+        between the two pointers is being reduced by one. And the size
+        of this cycle can be anywhere between 1 (self cycle) or the
+        entire size of the linked list, if the cycle occurred from the
+        end point to the start point.
+
+        Time Complexity: O(n)
+            We iterate at worst over all nodes
+        
+        Space Complexity: O(1)
+            No additional space is needed
+        """
+        slow, fast = 0, 0
+        
+        while fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return True
         return False
