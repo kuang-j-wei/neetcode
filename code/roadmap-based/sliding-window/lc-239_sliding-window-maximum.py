@@ -28,7 +28,9 @@ class Solution:
         for idx, num in enumerate(nums):            
             # if the current window is going to be too big, then we
             # slide out the left most, oldest, indices in the queue
-            while queue and (idx - queue[0] + 1) > k:
+            if queue and (idx - queue[0] + 1) > k:
+                # if the curr idx to left most index is greater than the
+                # window size, pop the oldest index to decrease the size
                 queue.popleft()
             
             # for new joiner, remove 
