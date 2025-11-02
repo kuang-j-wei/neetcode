@@ -3,6 +3,46 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+
+
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        slow = head
+        fast = head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        # slow.next is the start of the second half, so we need to
+        # start reversing pointers. Create a dummy node so as we are
+        # iterating through the reversed list we will hit a natural end
+        prev = None
+        curr = slow.next
+        while curr:
+            tmp = curr.next
+            curr.next = prev
+            # move curr to original curr.next
+            # move prev to curr
+            prev = curr
+            curr = tmp
+
+        # disconnect from second half from first
+        slow.next = None
+
+        # front and back one by one iteration until the back reversed
+        # list reaches null
+        tail = prev
+
+        while tail:
+            head_next_tmp = head.next
+            head.next = tail
+            tail_next_tmp = tail.next
+            head = head_next_tmp
+            tail.next = head
+            tail = tail_next_tmp
+
+
+
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
         """
