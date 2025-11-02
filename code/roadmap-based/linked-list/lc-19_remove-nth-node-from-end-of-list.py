@@ -6,7 +6,44 @@ from typing import Optional
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+
+
 class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        """
+        We force left and right pointers to have a gap of n + 1, so that
+        by the time r reaches past the end, l will be at the node right
+        before the node that we are supposed to delete. We can think
+        about if n = 1, then the distance between the Null at the end
+        and the end of the node is exactly 1, and the end node is the
+        node that we are supposed to be deleted, and the l pointer will
+        be at the node in front of the end node. Then we just need to
+        assign the left pointer node's next to itself's next next to
+        remove the nth node counted from the back
+
+        Time Complexity: O(n)
+            We just need to traverse the entire linked list once
+
+        Space Complexity: O(1)
+            No additional space is used.
+        """
+        dummy = ListNode(None, next=head)
+
+        l = dummy
+        r = head
+
+        for _ in range(n):
+            r = r.next
+
+        while r:
+            l = l.next
+            r = r.next
+
+        l.next = l.next.next
+        return dummy.next
+
+
+class SolutionHash:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
         """
         This can be achieved if we know the "before" of a node.
