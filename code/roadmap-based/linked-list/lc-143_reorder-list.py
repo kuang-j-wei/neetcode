@@ -7,6 +7,61 @@
 
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Because we are oscillating between using a node counted from the
+        front, and a node counted from the back, we want to divide this
+        linked list by two, then we can reverse the second half of the
+        linked list, which would then allow us to iterate backwards.
+
+        To split the linked list in half, we can use a slow and fast
+        pointer approach, where the slow pointer advances one node at a
+        time, and the fast pointer advances two nodes at a time. Because
+        the fast pointer goes at twice the speed of the slow pointer, by
+        the time it covers the full distance of the linked list, the
+        slow pointer would only have the time to cover only half the
+        distance, so it would be at the half point of the linked list.
+
+        And because we start the reordering from the head, we want the
+        first half (which includes the head) to be longer than the
+        second half so that when we are relinking the nodes we don't run
+        out of nodes in the first half first.
+
+        As such, we will always call the node after the slow pointer the
+        start of the second half of the linked list. So if the list is
+        of even length, the two halves are of equal length, and if it's
+        odd, then the second half is one node shorter.
+
+        We can then reverse the second half by using a prev, curr, and
+        tmp pointer solution. After the reversal, the last node of this
+        reversed list will point to Null, which will let us properly
+        terminate this linked list when traversing through the second
+        half.
+
+        Then we sever the link between the first half and the second
+        half by assigning the `.next` of the end node of the first half
+        to Null, which would then avoid a cycle forming between the
+        first and second half of the node.
+
+        Then we merge the two halves by alternating between the nodes
+        from the head of the first half, and the new head of the
+        reversed second half, which is the original tail of this linked
+        list, doing so until the second half is fully traversed through.
+        And because we already assigned the last node of the first half
+        to connect to Null as its next node, this linked list will have
+        a correct Null ending, as we always will end with the last node
+        of the first half leftover, since we made the first half to be
+        longer or equal length as the second half, so by the time we
+        finish traversing the second half, we will also have traversed
+        through the full first half.
+
+        Time Complexity: O(n)
+            We only do linear pass once in the slow and fast pointer
+            split plus the reversing of the second half, then another
+            forward pass for merging.
+
+        Space Complexity: O(1)
+            No additional space is used.
+        """
         slow = head
         fast = head.next
         while fast and fast.next:
