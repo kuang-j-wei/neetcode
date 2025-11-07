@@ -22,9 +22,9 @@ class Solution:
         back, and link with the digit in its front, and continue until
         we've traversed all digits from the back.
 
-        Time Complexity: O(n)
+        Time Complexity: O(m + n)
             We traverse l1 and l2 each in one pass. Then traversing the
-            digits of their sum would also take another O(n + 1)
+            digits of their sum would also take another O(n)
         
         Space Complexity: O(1)
             No additional space was used
