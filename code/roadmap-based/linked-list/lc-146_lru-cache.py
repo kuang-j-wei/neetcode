@@ -55,14 +55,18 @@ class LRUCache:
                 self.update_node_to_tail(node)
         elif len(self.cache) >= self.capacity:
             # need to evict then add a new node
-            ## fist evict the head
-            ## we can do so by moving the head to the next element
-            ## and we also need to remove it from the cache
+            ## fist pop the head key from the cache
             self.cache.pop(self.dummy.next.key)
-            self.dummy.next = self.dummy.next.next
-            if self.dummy.next: # this means head is not an empty node
+            ## then if this is not the only node in the list, manipulate
+            ## the links to remove this head node
+            if self.tail != self.dummy.next:
+                # there is more than one node in the linked list
+                self.dummy.next = self.dummy.next.next
                 self.dummy.next.prev = self.dummy
-            else: # head is now empty, so assign tail back to the dummy
+            ## otherwise, head was the only node, so now we should only
+            ## have dummy in the linked list
+            else:
+                self.dummy.next = None
                 self.tail = self.dummy
             ## then add this new node to the tail and to the cache
             node = ListNode(val=value, key=key)
