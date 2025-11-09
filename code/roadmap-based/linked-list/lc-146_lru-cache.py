@@ -23,7 +23,7 @@ class LRUCache:
     cache as well.
 
     Time Complexity: O(1)
-        We will always only need to update the head and tail, and also
+        We will always only need o update the head and tail, and also
         a node that may be in the middle of the doubly link list, which
         is still an O(1) operation
 
@@ -34,7 +34,7 @@ class LRUCache:
         self.capacity = capacity
         self.cache = {}  # we will let this cache to return the node, then we return node.val as the
         self.dummy = ListNode()
-        self.curr = self.dummy
+        self.tail = self.dummy
 
     def get(self, key: int) -> int:
         if key not in self.cache:
@@ -42,51 +42,50 @@ class LRUCache:
         # need to update linked list and return cache
         node = self.cache[key]
         # update it to the tail, if it's not already the tail
-        if self.curr != node:
-            node.prev.next = node.next
-            node.next.prev = node.prev
-            self.curr.next = node
-            node.prev = self.curr
-            node.next = None
-            self.curr = self.curr.next
+        if self.tail != node:
+            self.update_node_to_tail(node)
         return node.val
 
     def put(self, key: int, value: int) -> None:
         if key in self.cache:
-            # update a value, this is the same as get
+            # update a value, and update the tail
             node = self.cache[key]
             node.val = value
-            if self.curr != node:
-                node.prev.next = node.next
-                node.next.prev = node.prev
-                self.curr.next = node
-                node.prev = self.curr
-                node.next = None
-                self.curr = self.curr.next
+            if self.tail != node:
+                self.update_node_to_tail(node)
         elif len(self.cache) >= self.capacity:
-            # adding a new value and need to evict
+            # need to evict then add a new node
             ## fist evict the head
-            ## we can do soo by moving the head to the next element
-            ## but we also need to remove it from the cache
+            ## we can do so by moving the head to the next element
+            ## and we also need to remove it from the cache
             self.cache.pop(self.dummy.next.key)
             self.dummy.next = self.dummy.next.next
             if self.dummy.next: # this means head is not an empty node
                 self.dummy.next.prev = self.dummy
-            else:
-                self.curr = self.dummy
+            else: # head is now empty, so assign tail back to the dummy
+                self.tail = self.dummy
             ## then add this new node to the tail and to the cache
             node = ListNode(val=value, key=key)
-            self.curr.next = node
-            node.prev = self.curr
-            self.curr = self.curr.next
             self.cache[key] = node
+            self.add_to_tail(node)
         else:
             # adding a new value and don't need to evict
             node = ListNode(val=value, key=key)
-            self.curr.next = node
-            node.prev = self.curr
-            self.curr = self.curr.next
             self.cache[key] = node
+            self.add_to_tail(node)
+
+    def update_node_to_tail(self, node):
+            node.prev.next = node.next
+            node.next.prev = node.prev
+            self.tail.next = node
+            node.prev = self.tail
+            node.next = None
+            self.tail = self.tail.next
+
+    def add_to_tail(self, node):
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = self.tail.next
 
 
 
