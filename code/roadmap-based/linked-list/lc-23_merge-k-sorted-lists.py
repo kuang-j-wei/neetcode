@@ -10,21 +10,73 @@ from typing import Optional
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         """
-        Since each is linked list is already sorted, we can start from
-        each head, order them into an ascending order, then traverse one
-        node forward, and then compare them all again.
-
-        But the problem here is that in some linked list, their first
-        layer may already be larger than the second layer of some other
-        list, so this would cause a problem as well
-
-        Brute force would just traverse through every single node and
-        put them all into a long list, sort them, which would take
-        O(k * n * log(k * n)) where n is the average length of each
-        linked list.
-
-        But each linked list is already sorted, so we should need to do
-        this repeated sorting work and we should try to take advantage
-        of this sorted fact.
+        The key here is to consider the "merge two sorted lists" problem,
+        then we will merge two lists together at a time. This will
+        effectively reduce the number of times we do merge down to
+        log(k). Thus if on average there are n elements in a linked
+        list, the total operations will be O(n log(k)).
         """
-        return None
+        if not lists:
+            return lists
+        if len(lists) < 2:
+            return lists
+        if len(lists) % 2 == 0:  # even
+            while len(lists) >= 2:
+                next_lists = []
+                for i in range(0, len(lists), 2):
+                    new_head = self.mergeTwoLists(lists[i], lists[i + 1])
+                    next_lists.append(new_head)
+                lists = next_lists
+        else:  # odd
+            last_list = lists[-1]
+            lists = lists[:-1]
+            while len(lists) >= 2:
+                next_lists = []
+                for i in range(0, len(lists), 2):
+                    new_head = self.mergeTwoLists(lists[i], lists[i + 1])
+                    next_lists.append(new_head)
+                lists = next_lists
+            lists = [self.mergeTwoLists(lists[0], last_list)]
+        return lists[0]
+
+
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        """
+        first check whichever head is the smaller value and assign it as
+        the returning head. We then assign curr1 and curr2 (remember to
+        move the smaller one forward). Then we can just continuously
+        link nodes by checking which curr1 or curr2 have the smaller
+        value
+
+        Time Complexity: O(n)
+            We only traverse through each node once
+
+        Space Complexity: O(1)
+            No additional memory was used
+        """
+        if not list1:
+            return list2
+        if not list2:
+            return list1
+
+        new_head = list1 if list1.val <= list2.val else list2
+        curr = new_head
+        curr1  = list1.next if list1.val <= list2.val else list1
+        curr2  = list2.next if list2.val < list1.val else list2
+
+        while curr1 and curr2:
+            if curr1.val <= curr2.val:
+                curr.next = curr1
+                curr1 = curr1.next
+            else:
+                curr.next = curr2
+                curr2 = curr2.next
+            curr = curr.next
+
+        if curr1:
+            curr.next = curr1
+        if curr2:
+            curr.next = curr2
+
+        return new_head
+
