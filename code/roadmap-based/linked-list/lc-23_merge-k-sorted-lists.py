@@ -17,25 +17,19 @@ class Solution:
         list, the total operations will be O(n log(k)).
         """
         if not lists:
-            return lists
+            return None
         if len(lists) < 2:
-            return lists
-        if len(lists) % 2 == 0:  # even
-            while len(lists) >= 2:
-                next_lists = []
-                for i in range(0, len(lists), 2):
-                    new_head = self.mergeTwoLists(lists[i], lists[i + 1])
-                    next_lists.append(new_head)
-                lists = next_lists
-        else:  # odd
-            last_list = lists[-1]
-            lists = lists[:-1]
-            while len(lists) >= 2:
-                next_lists = []
-                for i in range(0, len(lists), 2):
-                    new_head = self.mergeTwoLists(lists[i], lists[i + 1])
-                    next_lists.append(new_head)
-                lists = next_lists
+            return lists[0]
+        while len(lists) >= 2:
+            next_lists = []
+            for i in range(0, len(lists) - 1, 2):
+                new_head = self.mergeTwoLists(lists[i], lists[i + 1])
+                next_lists.append(new_head)
+            if len(lists) % 2 != 0:
+                next_lists.append(lists[-1])
+            lists = next_lists
+
+        if len(lists) > 1:
             lists = [self.mergeTwoLists(lists[0], last_list)]
         return lists[0]
 
