@@ -15,22 +15,30 @@ class Solution:
         effectively reduce the number of times we do merge down to
         log(k). Thus if on average there are n elements in a linked
         list, the total operations will be O(n log(k)).
+
+        Time Complexity: O(n log(k))
+            Each merging two sorted linked lists will take O(n) time,
+            and we only need to do it log(k) times since we are dividing
+            by half of k each time we merge all lists
+        
+        Space Complexity: O(k)
+            The temporary storage of next_lists can at most take k / 2
+            pointers of the linked lists
         """
         if not lists:
             return None
         if len(lists) < 2:
             return lists[0]
+
         while len(lists) >= 2:
             next_lists = []
-            for i in range(0, len(lists) - 1, 2):
+            for i in range(0, len(lists) - 1, 2): # at most reaching len(lists) - 2, which makes i and i + 1 valid because it gets to len(lists) - 1
                 new_head = self.mergeTwoLists(lists[i], lists[i + 1])
                 next_lists.append(new_head)
             if len(lists) % 2 != 0:
                 next_lists.append(lists[-1])
             lists = next_lists
 
-        if len(lists) > 1:
-            lists = [self.mergeTwoLists(lists[0], last_list)]
         return lists[0]
 
 
