@@ -40,23 +40,31 @@ class Solution:
             return head
 
         curr = head
-
+        first_reversed = False
+        pre_pre_reverse_head = None 
         while curr:
+            pre_pre_reverse_head = pre_reverse_head if pre_pre_reverse_head else None
             pre_reverse_head = curr
-            first_reversed = False
+            
             for _ in range(k - 1):
                 prev = curr
-                next = curr.next.next
+                if curr.next.next:
+                    next = curr.next.next
+                else:
+                    break
+                    # and enter the reversal phase
                 curr = curr.next
                 curr.next = prev
             
             
             pre_reverse_head.next = next
+            pre_pre_reverse_head.next.next = curr
             previous_tail = curr
             curr = next
 
             if not first_reversed:
-                head = curr
+                head = previous_tail
+                first_reversed = True
             
         return head            
 
