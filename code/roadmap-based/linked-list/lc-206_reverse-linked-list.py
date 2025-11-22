@@ -11,9 +11,10 @@ class Solution:
         curr, and next. next is necessary because after we link
         curr.next to prev, we won't be able to directly access the next
         node. We will do this until curr is at a None, which means we
-        have run out of all nodes, and we have reversed all links,
-        except that the original head.next is still pointing to its
-        original next node, so we need to manually set its next to None.
+        have run out of all nodes, and we have reversed all links. We
+        will also start with setting the first prev to be None, so when
+        curr is on the original head, its next will correctly be set to
+        None.
 
         Time Complextiy: O(n)
             We traverse every node exactly once only
@@ -24,8 +25,8 @@ class Solution:
         if not head or not head.next:
             return head
 
-        curr = head.next
-        prev = head
+        curr = head
+        prev = None
         while curr:
             next = curr.next
             curr.next = prev
