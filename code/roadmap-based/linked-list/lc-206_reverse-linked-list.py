@@ -31,7 +31,11 @@ class Solution:
             nxt= curr.next
             curr.next = prev
             prev = curr
-            curr = next
-        
-        head.next = None
+            curr = nxt 
         return prev
+
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+        return head
