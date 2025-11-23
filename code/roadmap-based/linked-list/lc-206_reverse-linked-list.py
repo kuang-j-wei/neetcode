@@ -37,10 +37,35 @@ class Solution:
 
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if head is None or head.next is None:
-            return head 
+        """
+        The base case will just be a singular node (or None), because
+        there is nothing to be reversed, so we can just return the input
+        head node itself.
+
+        So we can recursively call reverse on a smaller and smaller
+        sublist, until we are returned with just the last node itself.
+
+        But now we need to link this last node to its previous node.
+
+        The key spirit in the recursive solution is that when a "later"
+        node is returned, the previous node is still linked to this next
+        node. So we can just call curr.next.next to set the nex tlink
+        of this later node to this previous node itself, and then we
+        severe the existing next link from the head.next link.
+
+        Time Complexity: O(n)
+            We traverse through all nodes once
         
-        prev = self.reverseList(head.next)
-        head.next.next = head
+        Space Complexity: O(n)
+            The recursive call stack has to grow to the same size as the
+            linked list itself
+        """
+        if head is None or head.next is None:
+            return head
+        
+        new_head = self.reverseList(head.next)
+        # need to reverse the pointer from the newly reversed list's tail to the original head caller
+        head.next.next = head # head.next is the new tail of the reversed linked list; so we need to set its next back to current head
         head.next = None
-        return prev 
+        
+        return new_head
