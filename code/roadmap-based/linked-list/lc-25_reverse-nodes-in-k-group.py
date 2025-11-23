@@ -25,8 +25,16 @@ class Solution:
         to reverse again. We do this until there are no nodes available
         to be reversed again.
 
+        One tricky and critical implementation detail is that we have to
+        switch the curr pointer that tracks the traversal in the linked
+        list to the newly reversed tail in order for the positional
+        tracking to be correct. Otherwise curr pointer will be pointing
+        at a node that's already been reversed.
+
         Time Complexity: O(n)
-            We only traverse through the list once
+            We traversed each node at most twice, once from checking if
+            there are k remaining nodes in the list, and another from
+            reversing
         
         Space Complexity: O(1)
             No additional space was used
@@ -34,7 +42,7 @@ class Solution:
         if not head or not head.next or k == 1:
             return head
         
-        dummy = ListNode(None)
+        dummy = ListNode(0)
         dummy.next = head
 
         curr = dummy
@@ -48,9 +56,9 @@ class Solution:
             reversed_head, reversed_tail = self.reverseKNodes(pre_node.next, k)
             pre_node.next = reversed_head
             reversed_tail.next = post_node
-            curr = reversed_tail
+            curr = reversed_tail  # move the curr pointer to the right position, the new tail of the reversed linked list because curr was at the old tail which is now at the start after reversing
 
-        return dummy.next 
+        return dummy.next
 
 
     def reverseKNodes(self, head, k):
