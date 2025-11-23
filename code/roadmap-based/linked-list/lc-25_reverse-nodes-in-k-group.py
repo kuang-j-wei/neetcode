@@ -11,21 +11,19 @@ from typing import Optional
 class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         """
-        As we are iterating forward, we can reverse the link as we go.
-        while keeping a pointer to the "current head", which will be the
-        first node in these k nodes. And if the current node we are on
-        is going to be the tail of the newly reversed sub-list, then we
-        will save its next before reversing. After reversing, we will
-        point the original k head to the tail.next that we saved. In
-        addition, if this is the first sublist that we reversed, then
-        we will also make this current tail node as the new head. And we
-        move onto the previously saved tail.next as the current node as
-        we iterate. And if in this reversing link process, we see that
-        we've reached the end of the list, then we would need to go
-        back to reversing the links again. This also means that we will
-        always have to keep a pointer on the previous reversed k list's
-        new tail so we could complete this final reversal if we've run
-        out of space.
+        We will do this in a two-pass way: we first check if we have k
+        nodes in front for us to reverse. If there a k nodes available,
+        we will reverse the linked list and return the reversed head
+        and tail, so that they can be used for linkage with the previous
+        and next sections. And because we need to link with the previous
+        and next sections, before we do any reversing, we will also need
+        to make sure we have the node right in front and right after the
+        section that we are trying to reverse, so that we can complete
+        the linkage. After properly linking with the before and after
+        nodes of the k section that we just reversed, we move forward to
+        the next node and continue checking whether we have enuogh nodes
+        to reverse again. We do this until there are no nodes available
+        to be reversed again.
 
         Time Complexity: O(n)
             We only traverse through the list once
@@ -33,38 +31,40 @@ class Solution:
         Space Complexity: O(1)
             No additional space was used
         """
-        if k == 1:
+        if not head or not head.next or k == 1:
             return head
-    
-        if not head:
-            return head
+        
+        dummy = ListNode(None)
+        dummy.next = head
 
-        curr = head
-        first_reversed = False
-        pre_pre_reverse_head = None 
+        curr = dummy
         while curr:
-            pre_pre_reverse_head = pre_reverse_head if pre_pre_reverse_head else None
-            pre_reverse_head = curr
-            
-            for _ in range(k - 1):
-                prev = curr
-                if curr.next.next:
-                    next = curr.next.next
-                else:
-                    break
-                    # and enter the reversal phase
+            pre_node = curr
+            for _ in range(k): 
                 curr = curr.next
-                curr.next = prev
-            
-            
-            pre_reverse_head.next = next
-            pre_pre_reverse_head.next.next = curr
-            previous_tail = curr
-            curr = next
+                if not curr:  # null check needs to be done after moving node, because we want to see if we went out of bound after moving
+                    return dummy.next 
+            post_node = curr.next
+            reversed_head, reversed_tail = self.reverseKNodes(pre_node.next, k)
+            pre_node.next = reversed_head
+            reversed_tail.next = post_node
+            curr = reversed_tail
 
-            if not first_reversed:
-                head = previous_tail
-                first_reversed = True
-            
-        return head            
+        return dummy.next 
 
+
+    def reverseKNodes(self, head, k):
+        """
+        k is inclusive, i.e. if k == 2 reverse head and its next node,
+        which only involves one link
+        """
+        prev = None
+        curr = head
+
+        for _ in range(k):
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+        
+        return prev, head
