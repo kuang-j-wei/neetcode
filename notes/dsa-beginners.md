@@ -352,6 +352,8 @@ def remove(root, val):
 * This is a recursive algorithm by nature
 * The key definition here is that we go as far deep into the leaf first before we start backtracking
 * The different "order" traversals are just about when the current node gets processed relative to its subtrees
+
+### Pre-order traversal
 ```python
 from collections import deque
 
@@ -371,16 +373,17 @@ def dfs(root):
             stack.append(curr.left)
 ```
 
-### In order traversal
+### In-order traversal
 ```python
 self.traverse(root)
 print(root)
 self.traverse(root)
+```
 * In order traversal means that we go depth first
   * We go as left as possible -> record the current leaf node -> go to the parent -> go traverse the right sub-tree
 * Useful for printing in ascending order
 
-### Pre order traversal
+### Pre-order traversal
 ```python
 print(root)
 self.traverse(root)
