@@ -125,4 +125,4 @@ class Solution:
             return True
         if (p is None) or (q is None) or (p.val != q.val):  # since both are None case is considered, if one of them is None, then it's only one of them
             return False
-        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)  # both equal at the current root, pre-order traversal; now check if left subtrees equal, and then check if right subtrees equal
