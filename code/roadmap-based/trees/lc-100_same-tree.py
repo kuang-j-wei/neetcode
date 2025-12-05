@@ -44,14 +44,11 @@ class Solution:
                 curr_1 = queue_1.popleft()
                 curr_2 = queue_2.popleft()
                 
-                if (curr_1 is None) ^ (curr_2 is None):
-                    return False
-                elif curr_1 is None and curr_2 is None:
+                if not curr_1 and not curr_2:
                     continue
-                elif curr_1.val != curr_2.val:
+                if not curr_1 or not curr_2 or curr_1.val != curr_2.val:  # since both are None case is considered, if one of them is None, then it's only one of them
                     return False
-                
-                
+          
                 queue_1.append(curr_1.left)
                 queue_1.append(curr_1.right)
                 queue_2.append(curr_2.left)
@@ -93,14 +90,11 @@ class Solution:
             curr_1 = stack_1.pop()
             curr_2 = stack_2.pop()
 
-            if (curr_1 is None) ^ (curr_2 is None):
-                return False
-            elif curr_1 is None and curr_2 is None:
+            if curr_1 is None and curr_2 is None:
                 continue
-            elif curr_1.val != curr_2.val:
+            elif curr_1 is None or curr_2 is None or curr_1.val != curr_2.val:  # since both are None case is considered, if one of them is None, then it's only one of them
                 return False
-                
-                
+
             stack_1.append(curr_1.left)
             stack_1.append(curr_1.right)
             stack_2.append(curr_2.left)
@@ -129,6 +123,6 @@ class Solution:
         """
         if p is None and q is None:
             return True
-        if ((p is None) ^ (q is None)) or p.val != q.val:
+        if (p is None) or (q is None) or (p.val != q.val):  # since both are None case is considered, if one of them is None, then it's only one of them
             return False
         return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
