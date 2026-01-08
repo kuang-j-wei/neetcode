@@ -73,3 +73,27 @@ class Solution:
             else:
                 lowest = lowest.right
         return None
+
+
+class SolutioRecursive:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        """
+        For a recursive case, the base case would be when root is None,
+        that means we've reached the end of the tree.
+
+        Time Complexity: O(h)
+            Same reasoning as the iterative solution above
+        
+        Space Complexity: O(h)
+            The recursive stack will grow to the size of the height of
+            the tree.
+        """
+        if not root:  # we've reached the end of the tree
+            return None
+        
+        if max(p.val, q.val) <= root.val:  # both in left subtree
+            return self.lowestCommonAncestor(root.left, p, q)
+        elif min(p.val, q.val) > root.val:  # both in right subtree
+            return self.lowestCommonAncestor(root.right, p, q)
+        else:  # either in between or p or q or both already matched root, so this is the lowest common ancestor
+            return root
