@@ -31,7 +31,7 @@ class Solution:
         """
         paths = 0
         stack = [(root, root.val)]
-        
+
         while stack:
             curr, path_max = stack.pop()
             if curr.val >= path_max:
@@ -44,3 +44,40 @@ class Solution:
             if curr.left:
                 stack.append((curr.left, new_max))
         return paths
+
+
+class SolutionRecursive:
+    def goodNodes(self, root: TreeNode) -> int:
+        """
+        Base case is, if it's None, then return 0, because no valid
+        path can be set on a Null node.
+
+        Then we need to check if the current value is greater than or
+        equal to the path_max. If it is, then the current node is
+        considered a valid path. So we incur one additional path. Then
+        we need to add this 1 with the sum of the left and right
+        sub-problems by calling dfs on the two children, and at the same
+        time pass on the current node value as the new path_max.
+        Otherwise, we just need to return the left and right
+        sub-problems, without needing to add 1 and we continue to pass
+        on the existing path_max
+
+        Time Complexity: O(n)
+            Every node is visited once
+
+        Space Complexity: O(h)
+            The recursive stack can grow to the height of the tree. So
+            O(log(n)) for a balanced tree and O(n) in the most extreme
+            unbalanced tree case
+        """
+        def dfs(curr, path_max):
+            if not curr:
+                return 0
+
+            if curr.val >= path_max:
+                return 1 + dfs(curr.left, curr.val) + dfs(curr.right, curr.val)
+            else:
+                return dfs(curr.left, path_max) + dfs(curr.right, path_max)
+
+        return dfs(root, root.val)
+
