@@ -72,3 +72,16 @@ class Solution:
                         )
                     )
         return True
+
+
+class SolutionDFS:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def dfs(curr, min_range, max_range):
+            if not curr:
+                return True
+            
+            if curr.val <= min_range or curr.val >= max_range:
+                return False
+            
+            return dfs(curr.left, min_range, min(max_range, curr.val if curr is not None else max_range)) and dfs(curr.right, max(min_range, curr.val if curr is not None else min_range), max_range)
+        return dfs(root, float('-inf'), float('inf'))
