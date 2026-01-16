@@ -42,14 +42,14 @@ class Solution:
         queue.append(
             (
                 root,
-                (float(-inf), float(inf))  # first node, don't need to have any limit to the range
+                float(-inf), 
+                float(inf)  # first node, don't need to have any limit to the range
             )
         )
 
         while queue:
             for _ in range(len(queue)):
-                curr, min_max_range = queue.popleft()
-                min_range, max_range = min_max_range
+                curr, min_range, max_range = queue.popleft()
                 if curr.val <= min_range or curr.val >= max_range:
                     return False
 
@@ -57,18 +57,16 @@ class Solution:
                     queue.append(
                         (
                             curr.left,
-                            (
-                                (min_range, min(curr.val, max_range))
-                            )
+                            min_range, 
+                            curr.val
                         )
                     )
                 if curr.right:
                     queue.append(
                         (
                             curr.right,
-                            (
-                                (max(curr.val, min_range), max_range)
-                            )
+                            curr.val,
+                            max_range
                         )
                     )
         return True
@@ -91,11 +89,13 @@ class SolutionDFS:
 
         And when we are passing children, we also need to set the new
         min max boundary based on the current value. For the left child,
-        we now know that the upper bound may need to be updated by the
-        current value, so we choose whichever is the smaller, the
-        current max_range or the curr.val. For the right child, it's the
-        minimum value that may need to get updated by the current value,
-        or the current existing minimum range, whichever is larger.
+        we now know that the upper bound would need to be updated by the
+        current value. Since we've already just validated that curr.val
+        is smaller than the current max_range, we can just update the
+        max_range to the current value. Similarly, for the right child,
+        it's the minimum value that may need to get updated by the
+        current value, which again, we've already verified to be larger
+        the current minimum value.
 
         Lastly, to kick off the DFS, we call the dfs function on root
         with a range from negative infinity to infinity, since for the
@@ -116,5 +116,5 @@ class SolutionDFS:
             if curr.val <= min_range or curr.val >= max_range:
                 return False
             
-            return dfs(curr.left, min_range, min(max_range, curr.val)) and dfs(curr.right, max(min_range, curr.val), max_range)
+            return dfs(curr.left, min_range, curr.val) and dfs(curr.right, curr.val, max_range)
         return dfs(root, float('-inf'), float('inf'))
