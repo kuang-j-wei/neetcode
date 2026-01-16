@@ -76,6 +76,39 @@ class Solution:
 
 class SolutionDFS:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        """
+        For a depth first traversal, the base case is if the current
+        node is None, then by default nothing is violated, so we return
+        True.
+
+        If not None, then we check if this value breaches the min max
+        range, and if it breaches we can return False to indicate that
+        this is invalid.
+
+        Then we check its left and right children. We have to check both
+        and use an AND statement to combine both, because if one of the
+        child is invalid, we know that the entire tree is invalid.
+
+        And when we are passing children, we also need to set the new
+        min max boundary based on the current value. For the left child,
+        we now know that the upper bound may need to be updated by the
+        current value, so we choose whichever is the smaller, the
+        current max_range or the curr.val. For the right child, it's the
+        minimum value that may need to get updated by the current value,
+        or the current existing minimum range, whichever is larger.
+
+        Lastly, to kick off the DFS, we call the dfs function on root
+        with a range from negative infinity to infinity, since for the
+        first node it can be of any value.
+
+        Time Complexity: O(n)
+            Every node is visited once.
+
+        Space Complexity: O(h)
+            The recursive stack can grow to the height of the tree,
+            which at its best case could be O(log(n)) for a balanced
+            tree, and worst case O(n) for an extremely unbalanced tree.
+        """
         def dfs(curr, min_range, max_range):
             if not curr:
                 return True
@@ -83,5 +116,5 @@ class SolutionDFS:
             if curr.val <= min_range or curr.val >= max_range:
                 return False
             
-            return dfs(curr.left, min_range, min(max_range, curr.val if curr is not None else max_range)) and dfs(curr.right, max(min_range, curr.val if curr is not None else min_range), max_range)
+            return dfs(curr.left, min_range, min(max_range, curr.val)) and dfs(curr.right, max(min_range, curr.val), max_range)
         return dfs(root, float('-inf'), float('inf'))
