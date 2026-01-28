@@ -1,6 +1,3 @@
-from collections import deque
-
-
 # Definition for a binary tree node.
 class TreeNode(object):
     def __init__(self, x):
@@ -9,48 +6,80 @@ class TreeNode(object):
         self.right = None
 
 class Codec:
-
     def serialize(self, root) -> str:
         """
         To turn this into a string, we could use a ',' as the delimiter.
-        We can for example, use BFS to describe the tree
+
+        And we will use DFS to traverse the tree, so that in deserialize
+        we can trace children back to their parents.
+
         :type root: TreeNode
         :rtype: str
         """
-        queue = deque([root])
+        stack = [root]
         res = ""
 
-        while queue:
-            for _ in range(len(queue)):
-                curr = queue.popleft()
-                
-                res += f"{curr.val}," if curr else f"None,"
-                
-                if curr is not None:
-                    queue.append(curr.left)
-                    queue.append(curr.right)   
-        return res 
+        while stack:
+            curr = stack.pop()
+
+            if curr:
+                res += f"{curr.val},"
+                stack.append(curr.right)
+                stack.append(curr.left)
+            else:
+                res += "None,"
+        return res
 
 
     def deserialize(self, data):
         """
+        There needs to be a recursive function, where whenever we
+        encounter a None value, we know that we've reached the leaf node
+        and thus can return back to the parent to trace another
+        direction. And we continuously iterate through a list of int
+        values and None that are supplied by the `data` string,
+        separated by delimiter ','
+
+
         :type data: str
         :rtype: TreeNode
         """
-        nodes = data.split(",")[:-1]
-        root = TreeNode(int(nodes[0])) if nodes[0] != 'None' else None
-        curr = root
+        def dfs(curr):
+            """
+            The job of this function is to iterate through all the
+            values. And if the current value is None, return None.
+            Otherwise, continue to recursively build up the left and
+            right subtrees
+            """
+            nonlocal child_node_idx
 
+            child_node = get_node(child_node_idx)
+            if child_node is None:
+                return None
+            else:
+                child_node_idx += 1
+                child_node = get_node(child_node_idx)
+                curr.left = dfs(child_node)
 
-        for i in range(1, len(nodes), 2):
-            node_left = TreeNode(int(nodes[i])) if nodes[i] != 'None' else None 
-            node_right = TreeNode(int(nodes[i + 1])) if nodes[i + 1] != 'None' else None 
+                child_node_idx += 1
+                child_node = get_node(child_node_idx)
+                curr.right = dfs(child_node)
+            return curr
 
-            curr.left = node_left
-            curr.right = node_right 
+        def get_node(child_node_idx):
+            val = vals[child_node_idx]
+            child_node_val = vals[child_node_idx]
+            child_node = TreeNode(int(child_node_val)) if child_node_val != 'None' else None
+            return child_node
 
-            curr = node_left if node_left is not None else node_right
-        return root
+        vals = data.split(",")[:-1]
+        root = TreeNode(int(vals[0])) if vals[0] != 'None' else None
+
+        if len(vals) == 1:
+            return root
+        else:
+            child_node_idx = 1
+            return dfs(root)
 
 
 # Your Codec object will be instantiated and called as such:
