@@ -1,10 +1,3 @@
-# Definition for a binary tree node.
-class TreeNode(object):
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
 class Codec:
     def serialize(self, root) -> str:
         """
@@ -13,8 +6,10 @@ class Codec:
         And we will use DFS to traverse the tree, so that in deserialize
         we can trace children back to their parents.
 
-        :type root: TreeNode
-        :rtype: str
+        Time Complexity: O(n)
+            Every node is visited once
+        Space Complexity: O(h)
+            The recursive stack can grow to the height of the tree
         """
         stack = [root]
         res = ""
@@ -40,46 +35,64 @@ class Codec:
         values and None that are supplied by the `data` string,
         separated by delimiter ','
 
-
-        :type data: str
-        :rtype: TreeNode
+        Time Complexity: O(n)
+            Splitting by "," also takes O(n) as we are iterating through
+            the entire string which covers the length of the tree. Then
+            the recursive dfs also is iterating through every node once,
+            which is another O(n) operation
+        Space Complexity: O(n)
+            The list `vals` can take up O(n) and then the recursive
+            stack by `dfs` would take up to O(h) which in its worst case
+            would be O(n) though best case is O(log(n)), but that's
+            still dominated by the O(n) taken up by the list `vals`
         """
-        def dfs(curr):
+        def dfs():
             """
-            The job of this function is to iterate through all the
-            values. And if the current value is None, return None.
-            Otherwise, continue to recursively build up the left and
-            right subtrees
-            """
-            nonlocal child_node_idx
+            This `dfs` function sets the tree structure recursively. Its
+            base case is if the node retrieved is None, then return None
+            as we don't have subsequent children that we need to set.
 
-            child_node = get_node(child_node_idx)
-            if child_node is None:
+            Otherwise, for this newly retrieved node, we recursively set
+            its left subtree and right subtree, by calling the dfs
+            function itself, which would then recursively builds up
+            the subtree until the end node None is reached, then
+            returning the entire subtree structure upwards through the
+            recursive stack.
+            """
+
+            curr = get_node()
+            if curr is None:
                 return None
             else:
-                child_node_idx += 1
-                child_node = get_node(child_node_idx)
-                curr.left = dfs(child_node)
-
-                child_node_idx += 1
-                child_node = get_node(child_node_idx)
-                curr.right = dfs(child_node)
+                curr.left = dfs()
+                curr.right = dfs()
             return curr
 
-        def get_node(child_node_idx):
+        def get_node():
+            """
+            The job of this function is to iterate through the list
+            `vals` and construct valid TreeNodes, and increment the
+            index counter every time. So whenever this function gets
+            called, the next TreeNode with its value set according to
+            `vals` gets returned
+            """
+            nonlocal child_node_idx
             val = vals[child_node_idx]
             child_node_val = vals[child_node_idx]
             child_node = TreeNode(int(child_node_val)) if child_node_val != 'None' else None
+            child_node_idx += 1
             return child_node
 
         vals = data.split(",")[:-1]
         root = TreeNode(int(vals[0])) if vals[0] != 'None' else None
 
-        if len(vals) == 1:
+        if not vals or vals[0] == '':
+            return None
+        elif len(vals) == 1:
             return root
         else:
-            child_node_idx = 1
-            return dfs(root)
+            child_node_idx = 0
+            return dfs()
 
 
 # Your Codec object will be instantiated and called as such:
