@@ -8,8 +8,10 @@ class Codec:
 
         Time Complexity: O(n)
             Every node is visited once
-        Space Complexity: O(h)
-            The recursive stack can grow to the height of the tree
+        Space Complexity: O(n)
+            The stack holding all the children nodes can grow up to O(n)
+            in an unbalanced tree. The `res` string itself can also grow
+            to O(n) space
         """
         stack = [root]
         res = ""
