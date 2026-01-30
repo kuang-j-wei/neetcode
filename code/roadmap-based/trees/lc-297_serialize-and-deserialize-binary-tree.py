@@ -79,7 +79,6 @@ class Codec:
             `vals` gets returned
             """
             nonlocal child_node_idx
-            val = vals[child_node_idx]
             child_node_val = vals[child_node_idx]
             child_node = TreeNode(int(child_node_val)) if child_node_val != 'None' else None
             child_node_idx += 1
