@@ -10,6 +10,12 @@ class Trie:
         
 
     def insert(self, word: str) -> None:
+        """
+        Need to modify the logic so that we can add an indicator if the
+        end of word has been reached. But we also need to add that it's
+        possible for this end of word to further extend to another word,
+        when appropriate as well
+        """
         curr = self.root
         
         for c in word:
