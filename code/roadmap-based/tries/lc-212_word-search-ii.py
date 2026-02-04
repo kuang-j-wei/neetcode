@@ -31,3 +31,23 @@ class Solution:
         characters. Then for each character, we assess if we have all
         the necessary neighboring characters.
         """
+        self.constructTrie(board)
+        for word in words:
+            curr = self.root
+            for char in word:
+                if char in curr.children:
+                    curr = curr.children[char]
+                else:
+                    return False
+        return True
+    
+    def constructTrie(self, board: List[List[str]]):
+        self.root = Node()
+
+        for r in range(len(board)):
+            for c in range(len(board[r])):
+                char = board[r][c]
+
+                recursive_path_tracing(self.root, char, r, c)
+                # char_idx = ord(char) - ord('a')
+                # root.children[char_idx] = Node()
