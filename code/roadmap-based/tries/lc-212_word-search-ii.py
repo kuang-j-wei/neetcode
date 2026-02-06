@@ -3,7 +3,7 @@ from typing import List
 
 class Node:
     def __init__(self):
-        self.children = [0] * 26
+        self.children = {}
         
 
 class Solution:
@@ -31,23 +31,48 @@ class Solution:
         characters. Then for each character, we assess if we have all
         the necessary neighboring characters.
         """
+        self.board = board
         self.constructTrie(board)
+        matched_words = []
         for word in words:
-            curr = self.root
-            for char in word:
-                if char in curr.children:
-                    curr = curr.children[char]
-                else:
-                    return False
+            if self.findMatch(word):
+                matched_words.append(word)
+        return matched_words
+
+
+    def findMatch(self, word):
+        if word[0] in self.starting_points:
+            for starting_point in self.start_points[word[0]]:
+                if self.findPath(starting_point, word):
+                    return True
+        return False
+
+    def findPath(self, starting_point, word):
+        """
+        starting_point is an index pair
+        
+        Given a starting point and a word, recursively trace through the
+        indices.
+        """
+        curr = self.trie[starting_point]
+        for c in word:
+            if c not in curr.children:
+                return False
+            else:
+                curr = curr.children
         return True
     
-    def constructTrie(self, board: List[List[str]]):
-        self.root = Node()
+    def constructTrie(self):
+        self.trie = {}
 
-        for r in range(len(board)):
-            for c in range(len(board[r])):
-                char = board[r][c]
+        for r in range(len(self.board)):
+            for c in range(len(self.board[r])):
+                char = self.board[r][c]
+                self.trie[(r, c)] = Node()
+                self.constructPath(self.trie[(r, c)])
 
-                recursive_path_tracing(self.root, char, r, c)
-                # char_idx = ord(char) - ord('a')
-                # root.children[char_idx] = Node()
+    def constructPath(self, node, starting_index):
+        """
+        Construct a trie given a starting node
+        """
+        return None
