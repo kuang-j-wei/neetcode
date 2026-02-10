@@ -32,7 +32,7 @@ class Solution:
         self.board = board
         self.m = len(self.board)
         self.n = len(self.board[0])
-        self.visited = [[False] * len(self.n)] * len(self.m)
+        self.visited = [[False] * self.n for _ in range(self.m)]
         self.root = Node()
         self.formTrie(words)
 
