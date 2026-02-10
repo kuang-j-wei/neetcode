@@ -4,75 +4,73 @@ from typing import List
 class Node:
     def __init__(self):
         self.children = {}
-        
+        self.end_of_word = None
+    
+    def markEndOfWord(self, word):
+        self.end_of_word = word
+
+    def isEndOfWord(self):
+        return self.end_of_word
 
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         """
-        For each letter, we can identify all its adjacent letters. These
-        sequences then will form a chain. So we could have all
-        characters be a starting node, then start tracing a chain.
-
-        Since m and n are limited by 12, we can just trace through the
-        entire board to construct a trie structure. Then for each node,
-        we will put all possible neighboring nodes as its children nodes
-
-        But for each tree path, we have to make sure that a previously
-        visited character can't be visited again. This maybe could be
-        achieved by creating another 12 by 12 array where for each path
-        we keep track of the node that has been visited. But if for each
-        path we have to do this once, then that would blow up the space
-        complexity. This could maybe be avoided if we do an "inplace"
-        memory wiping so only trace through one path at a time then
-        backtrack and flipping the visited node back to non-visited
-        node.
-
-        Alternatively we could just, for each word, iterate through its
-        characters. Then for each character, we assess if we have all
-        the necessary neighboring characters.
+        We will construct tries from each word. This way while we are
+        traversing through the board, we can quickly eliminate any path
+        that don't already fit an existing trie, and we can stop
+        traversing immediately.
+        
+        In terms of traversing the board, we will iterate through every
+        element of the board and use each as the starting point to
+        perform DFS from.
+        
+        TODO:
+            * Add unmarking visited logic
+            * Collect word
+            * Remove word from trie
         """
         self.board = board
-        self.constructTrie(board)
-        matched_words = []
+        self.m = len(self.board)
+        self.n = len(self.board[0])
+        self.visited = [[False] * len(self.n)] * len(self.m)
+        self.root = Node()
+        self.formTrie(words)
+
+        self.matched_words = []
+        for i, row in enumerate(board):
+            for j in range(len(row)):
+                if not dfs(i, j, self.root):
+                    break
+                else:
+                    self.matched_words.append(word)
+                
+        return self.matched_words
+
+
+    def formTrie(self):
         for word in words:
-            if self.findMatch(word):
-                matched_words.append(word)
-        return matched_words
+            curr = self.root
+            for c in word:
+                if c not in curr.children:
+                    curr.children[c] = Node()
+                curr = curr.children[c]
+            curr.markEndOfWord(word)
 
-
-    def findMatch(self, word):
-        if word[0] in self.starting_points:
-            for starting_point in self.start_points[word[0]]:
-                if self.findPath(starting_point, word):
-                    return True
-        return False
-
-    def findPath(self, starting_point, word):
-        """
-        starting_point is an index pair
-        
-        Given a starting point and a word, recursively trace through the
-        indices.
-        """
-        curr = self.trie[starting_point]
-        for c in word:
-            if c not in curr.children:
-                return False
-            else:
-                curr = curr.children
-        return True
-    
-    def constructTrie(self):
-        self.trie = {}
-
-        for r in range(len(self.board)):
-            for c in range(len(self.board[r])):
-                char = self.board[r][c]
-                self.trie[(r, c)] = Node()
-                self.constructPath(self.trie[(r, c)])
-
-    def constructPath(self, node, starting_index):
-        """
-        Construct a trie given a starting node
-        """
-        return None
+    def dfs(self, i, j, curr):
+        element = self.board[i][j]
+        self.visited[i][j] = True
+        if element not in curr.children:
+            return False
+        elif element in curr.children and curr.children[element].isEndOfWord():
+            return True
+        elif element in curr.children:
+            if i + 1 < self.m and not self.visited[i + 1][j]:
+                return dfs(i + 1, j, curr.children[element])
+            if i - 1 > 0 and not self.visited[i - 1][j]:
+                return dfs(i - 1, j, curr.children[element])
+            if j + 1 < self.n and not self.visited[i][j + 1]:
+                return dfs(i, j + 1, curr.children[element])
+            if j - 1 > 0 and not self.visited[i][j - 1]:
+                return dfs(i, j - 1, curr.children[element])
+        else:
+            return False
