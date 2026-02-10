@@ -66,11 +66,11 @@ class Solution:
         elif element in curr.children:
             if i + 1 < self.m and not self.visited[i + 1][j]:
                 return dfs(i + 1, j, curr.children[element])
-            if i - 1 > 0 and not self.visited[i - 1][j]:
+            if i - 1 >= 0 and not self.visited[i - 1][j]:
                 return dfs(i - 1, j, curr.children[element])
             if j + 1 < self.n and not self.visited[i][j + 1]:
                 return dfs(i, j + 1, curr.children[element])
-            if j - 1 > 0 and not self.visited[i][j - 1]:
+            if j - 1 >= 0 and not self.visited[i][j - 1]:
                 return dfs(i, j - 1, curr.children[element])
         else:
             return False
