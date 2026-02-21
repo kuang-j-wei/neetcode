@@ -99,8 +99,8 @@ class Solution:
         Then we go through dfs in all four directions.
 
         Once all four directions dfs are done, we set the current board
-        position  as unvisited, then the dfs function is over, or in
-        other words, backtracked.
+        position  as unvisited, because all four directions' paths are
+        fully explored. And we return back up in the recursive stack.
         """
         if i >= self.m or j >= self.n or i < 0 or j < 0 or self.visited[i][j]:
             return None
