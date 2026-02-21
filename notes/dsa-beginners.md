@@ -470,6 +470,13 @@ It's mostly for cases where we want to have a a comprehensive traversal of all s
 
 Maintain a solution stack. Keep adding solution to it. If an invalid solution is found, we pop from the stack, and go back to the previous step.
 
+The general use case for backtracking is using a systematic way to try out every possible path through a search space.
+
+The general pattern is that at each step, we would
+* Make a decision (is some kind of condition met)
+* Recurse to explore all paths from this decision point
+* Then undo the decision so other paths could later reuse it
+
 ## Tree Maze
 ### No memory version
 * Given a binary tree (not a binary search tree), find if a path to a leaf node can be found where a `0` is never encountered
