@@ -20,7 +20,11 @@ class Solution:
         So the smarter approach would be to turn the candidates into
         a dictionary keyed by the unique values of candidates and valued
         by their frequencies. And if an answer uses the same unique
-        values, it's a repeated 
+        values, it's a repeated.
+
+        But a new hint suggests to use the sorted array and adjacent
+        same numbers to prevent the same combinations for from being
+        explored multiple times.
         """
         self.res = set()
         self.candidates = candidates
